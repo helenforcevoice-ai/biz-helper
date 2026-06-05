@@ -41,25 +41,23 @@
   --c-bg-field:   #FAF7F0;
   --c-text:       #2C1A0E;
   --c-border:     rgba(184,147,58,0.35);
-  --c-border-mid: rgba(184,147,58,0.2);
-  --radius-lg: 12px; --radius-md: 6px;
+  --radius-lg: 12px; --radius-md: 6px; --radius-sm: 4px;
   --shadow:    0 2px 16px rgba(44,26,14,0.10);
   --shadow-lg: 0 4px 32px rgba(44,26,14,0.13);
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'PT Sans', Georgia, serif; background: var(--c-bg); color: var(--c-text); min-height: 100vh; padding: 2rem 1.5rem 6rem; }
+body { font-family: 'PT Sans', Georgia, serif; background: var(--c-bg); color: var(--c-text); min-height: 100vh; padding: 1.5rem 1.5rem 6rem; }
 
 /* ── BACK TO TOP ── */
 #back-top {
   position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 100;
   width: 40px; height: 40px; border-radius: 50%;
   background: var(--c-dark); border: 1.5px solid var(--c-gold);
-  color: var(--c-gold); font-size: 1.1rem; line-height: 1;
+  color: var(--c-gold); font-size: 1.1rem;
   display: flex; align-items: center; justify-content: center;
   cursor: pointer; text-decoration: none;
   box-shadow: 0 2px 12px rgba(44,26,14,0.25);
-  opacity: 0; pointer-events: none;
-  transition: opacity 0.25s;
+  opacity: 0; pointer-events: none; transition: opacity 0.25s;
 }
 #back-top.visible { opacity: 1; pointer-events: auto; }
 #back-top:hover { background: #3D2410; }
@@ -67,120 +65,183 @@ body { font-family: 'PT Sans', Georgia, serif; background: var(--c-bg); color: v
 /* ── HEADER ── */
 #top { scroll-margin-top: 0; }
 .site-header {
-  max-width: 1100px; margin: 0 auto 2rem;
+  max-width: 1100px; margin: 0 auto 1.5rem;
   background: var(--c-dark); border: 1.5px solid var(--c-gold);
-  border-radius: var(--radius-lg); padding: 1.75rem 2rem;
+  border-radius: var(--radius-lg);
+  padding: 0 1.75rem;
+  height: 72px;
+  display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
   position: relative; overflow: hidden; box-shadow: var(--shadow-lg);
 }
 .site-header::before {
   content: ''; position: absolute; inset: 0;
-  background: linear-gradient(135deg, rgba(184,147,58,0.12) 0%, transparent 55%);
+  background: linear-gradient(135deg, rgba(184,147,58,0.10) 0%, transparent 50%);
   pointer-events: none;
 }
-.eyebrow { font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--c-gold); margin-bottom: 0.5rem; }
-h1 { font-size: clamp(1.5rem, 3.5vw, 2.1rem); font-weight: 700; color: var(--c-bg-card); line-height: 1.1; margin-bottom: 0.6rem; }
-h1 em { font-style: normal; color: var(--c-gold); }
-.subtitle { font-size: clamp(0.85rem, 2vw, 0.95rem); color: var(--c-gold-light); line-height: 1.55; max-width: 580px; }
-.meta-row { display: flex; gap: 0.6rem; margin-top: 1.1rem; flex-wrap: wrap; }
-.meta-pill { font-size: 0.73rem; color: var(--c-gold); background: rgba(184,147,58,0.1); border: 1px solid rgba(184,147,58,0.3); border-radius: 20px; padding: 0.22rem 0.75rem; white-space: nowrap; }
 
-/* nav link to legend */
-.header-nav { display: flex; gap: 0.6rem; margin-top: 0.85rem; }
-.hnav-link {
-  font-size: 0.73rem; color: var(--c-gold-light);
-  background: transparent; border: 1px solid rgba(245,240,228,0.25);
-  border-radius: 4px; padding: 0.22rem 0.75rem;
-  text-decoration: none; transition: border-color 0.15s, color 0.15s;
+.header-left { display: flex; flex-direction: column; gap: 3px; min-width: 0; flex: 1; }
+
+.eyebrow { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--c-gold); }
+
+.header-title { font-size: 1.25rem; font-weight: 700; color: var(--c-bg-card); white-space: nowrap; line-height: 1.1; }
+.header-title em { font-style: normal; color: var(--c-gold); }
+
+.header-subtitle { font-size: 0.72rem; color: var(--c-gold-light); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.header-right { display: flex; gap: 6px; flex-shrink: 0; align-items: center; }
+
+.hbtn {
+  background: transparent; color: #F5F0E4;
+  border: 1px solid rgba(245,240,228,0.3); border-radius: var(--radius-sm);
+  padding: 5px 12px; font-size: 0.72rem; font-family: 'PT Sans', Georgia, sans-serif;
+  cursor: pointer; white-space: nowrap; letter-spacing: 0.03em;
+  text-decoration: none; display: inline-flex; align-items: center;
+  transition: border-color 0.15s, background 0.15s;
 }
-.hnav-link:hover { border-color: var(--c-gold); color: var(--c-gold); }
+.hbtn:hover { border-color: rgba(245,240,228,0.8); background: rgba(245,240,228,0.08); }
+.hbtn.hbtn-gold { border-color: var(--c-gold); color: var(--c-gold); }
+.hbtn.hbtn-gold:hover { background: rgba(184,147,58,0.12); }
+
+.roles-count { font-size: 0.72rem; color: var(--c-gold-light); white-space: nowrap; padding: 0 4px; }
 
 /* ── STATUS ── */
-#status { max-width: 1100px; margin: 0 auto 0.85rem; font-size: 0.8rem; color: var(--c-brown-hint); display: flex; align-items: center; gap: 0.5rem; }
+#status { max-width: 1100px; margin: 0 auto 0.75rem; font-size: 0.78rem; color: var(--c-brown-hint); display: flex; align-items: center; gap: 0.5rem; }
 .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--c-gold); animation: pulse 2.2s infinite; flex-shrink: 0; }
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.25} }
 
-/* ── MAP ── */
-.map-wrapper { max-width: 1100px; margin: 0 auto; overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--c-border); border-radius: var(--radius-lg); box-shadow: var(--shadow); background: var(--c-bg-card); }
-.map-grid { display: grid; grid-template-columns: 155px repeat(9, minmax(96px, 1fr)); gap: 0; min-width: 1020px; }
+/* ── MAP — плитки ── */
+.map-outer { max-width: 1100px; margin: 0 auto; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 
-.col-header {
-  background: var(--c-dark); border-right: 1px solid rgba(184,147,58,0.2); border-bottom: 1px solid rgba(184,147,58,0.35);
-  padding: 0.55rem 0.5rem; text-align: center; cursor: pointer; transition: background 0.15s; user-select: none;
+.map-grid {
+  display: grid;
+  grid-template-columns: 155px repeat(9, minmax(94px, 1fr));
+  gap: 3px;
+  min-width: 1020px;
+  padding: 0 0 0 0;
 }
-.col-header:last-child { border-right: none; }
+
+/* corner */
+.corner-cell {
+  background: var(--c-dark); border-radius: var(--radius-md);
+  padding: 0.55rem 0.75rem; display: flex; align-items: center;
+  cursor: pointer; user-select: none; transition: background 0.15s;
+}
+.corner-cell:hover, .corner-cell.sort-asc, .corner-cell.sort-desc { background: #3D2410; }
+.corner-label { font-size: 0.68rem; color: var(--c-gold); letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; }
+.corner-cell .sort-indicator { margin-left: 4px; font-size: 0.65rem; opacity: 0.6; }
+.corner-cell.sort-asc .sort-indicator::after  { content: '↑'; opacity: 1; }
+.corner-cell.sort-desc .sort-indicator::after { content: '↓'; opacity: 1; }
+.corner-cell:not(.sort-asc):not(.sort-desc) .sort-indicator::after { content: '↕'; }
+
+/* col headers */
+.col-header {
+  background: var(--c-dark); border-radius: var(--radius-md);
+  padding: 0.5rem 0.4rem; text-align: center;
+  cursor: pointer; transition: background 0.15s; user-select: none;
+}
 .col-header:hover, .col-header.active { background: #3D2410; }
-
-.col-header-name { display: block; font-size: 0.78rem; font-weight: 700; color: var(--c-gold-light); line-height: 1.2; margin-bottom: 2px; }
+.col-header-name { display: block; font-size: 0.76rem; font-weight: 700; color: var(--c-gold-light); line-height: 1.2; }
 .col-header.active .col-header-name { color: var(--c-gold); }
-
-/* sort indicator */
-.sort-indicator { display: inline-block; font-size: 0.65rem; margin-left: 3px; opacity: 0.5; vertical-align: middle; }
-.col-header.sort-asc .sort-indicator::after  { content: '↑'; opacity: 1; }
-.col-header.sort-desc .sort-indicator::after { content: '↓'; opacity: 1; }
+.sort-indicator { display: inline-block; font-size: 0.62rem; margin-left: 3px; opacity: 0.5; vertical-align: middle; }
+.col-header.sort-asc .sort-indicator::after  { content: '↑'; opacity: 1; color: var(--c-gold); }
+.col-header.sort-desc .sort-indicator::after { content: '↓'; opacity: 1; color: var(--c-gold); }
 .col-header:not(.sort-asc):not(.sort-desc) .sort-indicator::after { content: '↕'; }
 
-/* axis labels row — отдельная строка под таблицей */
-.axis-row { display: grid; grid-template-columns: 155px repeat(9, minmax(96px, 1fr)); gap: 0; min-width: 1020px; padding: 4px 0 6px; }
-.axis-label { font-size: 0.6rem; color: var(--c-brown-hint); text-align: center; padding: 0 4px; line-height: 1.3; }
+/* role cells */
+.role-cell {
+  background: var(--c-bg-field); border-radius: var(--radius-md);
+  padding: 0 0.75rem; font-size: 0.88rem; font-weight: 700; color: var(--c-dark);
+  display: flex; align-items: center; min-height: 44px;
+  box-shadow: var(--shadow);
+}
 
-.corner-cell { background: var(--c-dark); border-right: 1px solid rgba(184,147,58,0.2); border-bottom: 1px solid rgba(184,147,58,0.35); padding: 0.55rem 0.75rem; display: flex; align-items: center; }
-.corner-label { font-size: 0.68rem; color: var(--c-gold); letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; }
-
-.role-cell { background: var(--c-bg-field); border-right: 1.5px solid rgba(184,147,58,0.4); border-bottom: 1px solid var(--c-border-mid); padding: 0 0.75rem; font-size: 0.88rem; font-weight: 700; color: var(--c-dark); display: flex; align-items: center; min-height: 44px; }
-.val-cell { border-right: 1px solid rgba(184,147,58,0.15); border-bottom: 1px solid rgba(184,147,58,0.1); display: flex; align-items: center; justify-content: center; min-height: 44px; cursor: pointer; transition: filter 0.12s, transform 0.1s; position: relative; }
-.val-cell:hover { filter: brightness(1.12); transform: scale(1.04); z-index: 2; }
+/* value cells — плитки со скруглением */
+.val-cell {
+  border-radius: var(--radius-md);
+  display: flex; align-items: center; justify-content: center;
+  min-height: 44px; cursor: pointer;
+  transition: filter 0.12s, transform 0.1s;
+  position: relative;
+  box-shadow: 0 1px 4px rgba(44,26,14,0.08);
+}
+.val-cell:hover { filter: brightness(1.1); transform: scale(1.06); z-index: 2; }
 .val-cell.selected { outline: 2.5px solid var(--c-dark); outline-offset: -2px; z-index: 3; }
 .val-num { font-family: Georgia, serif; font-size: 1rem; font-weight: 700; letter-spacing: -0.02em; }
+.val-cell.empty { background: var(--c-bg-field) !important; box-shadow: none; }
 .val-cell.empty .val-num { font-size: 0.7rem; color: var(--c-brown-hint); font-family: 'PT Sans', sans-serif; }
 
-/* ── TOOLTIP ── */
-#tooltip { max-width: 1100px; margin: 1rem auto 0; background: var(--c-bg-card); border: 1px solid var(--c-border); border-left: 3px solid var(--c-gold); border-radius: var(--radius-lg); padding: 1rem 1.25rem; min-height: 68px; box-shadow: var(--shadow); }
-#tooltip .tip-meta { font-size: 0.7rem; font-weight: 700; color: var(--c-brown); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.35rem; }
-#tooltip .tip-scale-label { font-size: 0.72rem; color: var(--c-brown-hint); font-style: italic; margin-bottom: 0.2rem; }
-#tooltip .tip-body { font-size: 0.95rem; color: var(--c-text); line-height: 1.5; }
-#tooltip .tip-neutral { font-size: 0.88rem; color: var(--c-brown-hint); font-style: italic; }
-#tooltip .tip-hint { font-size: 0.85rem; color: var(--c-brown-hint); font-style: italic; }
+/* axis row */
+.axis-row {
+  display: grid;
+  grid-template-columns: 155px repeat(9, minmax(94px, 1fr));
+  gap: 3px; min-width: 1020px; padding: 5px 0 3px;
+}
+.axis-label { font-size: 0.6rem; color: var(--c-brown-hint); text-align: center; padding: 0 4px; line-height: 1.3; }
 
-/* ── LEGEND ── */
-.scale-strip { max-width: 1100px; margin: 0.85rem auto 0; background: var(--c-bg-card); border: 1px solid var(--c-border); border-radius: var(--radius-md); padding: 0.7rem 1rem; display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; box-shadow: var(--shadow); }
-.scale-label { font-size: 0.73rem; font-weight: 700; color: var(--c-brown); margin-right: 0.15rem; }
-.scale-item { display: flex; align-items: center; gap: 5px; font-size: 0.73rem; color: var(--c-brown-hint); }
-.scale-swatch { width: 26px; height: 17px; border-radius: 4px; flex-shrink: 0; }
+/* ── TOOLTIP ── */
+#tooltip {
+  max-width: 1100px; margin: 0.85rem auto 0;
+  background: var(--c-bg-card); border: 1px solid var(--c-border);
+  border-left: 3px solid var(--c-gold); border-radius: var(--radius-lg);
+  padding: 0.9rem 1.25rem; min-height: 62px; box-shadow: var(--shadow);
+}
+#tooltip .tip-meta { font-size: 0.68rem; font-weight: 700; color: var(--c-brown); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.3rem; }
+#tooltip .tip-scale-label { font-size: 0.7rem; color: var(--c-brown-hint); font-style: italic; margin-bottom: 0.15rem; }
+#tooltip .tip-body { font-size: 0.93rem; color: var(--c-text); line-height: 1.5; }
+#tooltip .tip-neutral { font-size: 0.85rem; color: var(--c-brown-hint); font-style: italic; }
+#tooltip .tip-hint { font-size: 0.83rem; color: var(--c-brown-hint); font-style: italic; }
+
+/* ── SCALE STRIP ── */
+.scale-strip {
+  max-width: 1100px; margin: 0.75rem auto 0;
+  background: var(--c-bg-card); border: 1px solid var(--c-border);
+  border-radius: var(--radius-md); padding: 0.6rem 1rem;
+  display: flex; flex-wrap: wrap; gap: 0.45rem; align-items: center; box-shadow: var(--shadow);
+}
+.scale-label { font-size: 0.72rem; font-weight: 700; color: var(--c-brown); margin-right: 0.1rem; }
+.scale-item { display: flex; align-items: center; gap: 4px; font-size: 0.72rem; color: var(--c-brown-hint); }
+.scale-swatch { width: 24px; height: 15px; border-radius: 3px; flex-shrink: 0; }
 
 /* ── LEGEND SECTION ── */
-#legend { scroll-margin-top: 1rem; max-width: 1100px; margin: 2.5rem auto 0; }
+#legend { scroll-margin-top: 1rem; max-width: 1100px; margin: 2rem auto 0; }
 .legend-header {
   background: var(--c-dark); border: 1.5px solid var(--c-gold);
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-  padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between;
+  padding: 0.85rem 1.5rem; display: flex; align-items: center; justify-content: space-between;
 }
-.legend-header h2 { font-size: 1rem; font-weight: 700; color: var(--c-gold-light); }
-.legend-header span { font-size: 0.73rem; color: var(--c-brown-hint); font-style: italic; }
-
-.legend-body { background: var(--c-bg-card); border: 1px solid var(--c-border); border-top: none; border-radius: 0 0 var(--radius-lg) var(--radius-lg); padding: 1.25rem 1.5rem; box-shadow: var(--shadow); }
-
-.legend-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.25rem; }
-
-.legend-crit { border: 1px solid var(--c-border); border-left: 3px solid var(--c-gold); border-radius: var(--radius-md); padding: 0.85rem 1rem; background: var(--c-bg-field); }
-.legend-crit-name { font-size: 0.8rem; font-weight: 700; color: var(--c-dark); margin-bottom: 0.6rem; }
-.legend-crit-axis { font-size: 0.68rem; color: var(--c-brown-hint); margin-bottom: 0.6rem; font-style: italic; }
+.legend-header h2 { font-size: 0.95rem; font-weight: 700; color: var(--c-gold-light); }
+.legend-header span { font-size: 0.7rem; color: var(--c-brown-hint); font-style: italic; }
+.legend-body {
+  background: var(--c-bg-card); border: 1px solid var(--c-border);
+  border-top: none; border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  padding: 1.25rem 1.5rem; box-shadow: var(--shadow);
+}
+.legend-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
+.legend-crit {
+  border: 1px solid var(--c-border); border-left: 3px solid var(--c-gold);
+  border-radius: var(--radius-md); padding: 0.8rem 1rem; background: var(--c-bg-field);
+}
+.legend-crit-name { font-size: 0.78rem; font-weight: 700; color: var(--c-dark); margin-bottom: 0.3rem; }
+.legend-crit-axis { font-size: 0.65rem; color: var(--c-brown-hint); margin-bottom: 0.55rem; font-style: italic; }
 .legend-scale { display: flex; flex-direction: column; gap: 3px; }
-.legend-row { display: flex; align-items: baseline; gap: 0.5rem; font-size: 0.78rem; line-height: 1.4; }
-.legend-val {
-  font-family: Georgia, serif; font-weight: 700; font-size: 0.82rem;
-  min-width: 28px; text-align: right; flex-shrink: 0;
-}
+.legend-row { display: flex; align-items: baseline; gap: 0.45rem; font-size: 0.76rem; line-height: 1.4; }
+.legend-val { font-family: Georgia, serif; font-weight: 700; font-size: 0.8rem; min-width: 26px; text-align: right; flex-shrink: 0; }
 .legend-desc { color: var(--c-brown); }
 .legend-neutral { color: var(--c-brown-hint); font-style: italic; }
-.lv-pos3 { color: #1A6B47; } .lv-pos2 { color: #4A9E72; } .lv-pos1 { color: #5A8A6A; }
-.lv-zero { color: var(--c-brown-hint); }
-.lv-neg1 { color: #9A5A2A; } .lv-neg2 { color: #B8693A; } .lv-neg3 { color: #8B3A1A; }
+.lv-pos3{color:#1A6B47} .lv-pos2{color:#4A9E72} .lv-pos1{color:#5A8A6A}
+.lv-zero{color:var(--c-brown-hint)}
+.lv-neg1{color:#9A5A2A} .lv-neg2{color:#B8693A} .lv-neg3{color:#8B3A1A}
 
 /* ── FOOTER ── */
-footer { max-width: 1100px; margin: 2.5rem auto 0; border-top: 1px solid var(--c-border); padding-top: 1.25rem; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; }
-footer p { font-size: 0.73rem; color: var(--c-brown-hint); line-height: 1.65; }
+footer {
+  max-width: 1100px; margin: 2.5rem auto 0;
+  border-top: 1px solid var(--c-border); padding-top: 1.25rem;
+  display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;
+}
+footer p { font-size: 0.72rem; color: var(--c-brown-hint); line-height: 1.7; }
 footer a { color: var(--c-gold); text-decoration: none; }
 footer a:hover { color: var(--c-brown); text-decoration: underline; }
+.footer-copy { font-size: 0.68rem; color: var(--c-brown-hint); margin-top: 0.5rem; opacity: 0.8; }
 </style>
 </head>
 <body>
@@ -193,21 +254,18 @@ footer a:hover { color: var(--c-brown); text-decoration: underline; }
 </div>
 
 <a href="#top" id="back-top" title="Наверх">↑</a>
-
 <div id="top"></div>
 
 <header class="site-header">
-  <div class="eyebrow">Краудсорсинговое исследование</div>
-  <h1>Biz Helper <em>CrowdMap</em></h1>
-  <p class="subtitle">Сравнительная карта 12 ролей помогаторов предпринимательских проектов по 9 критериям — данные обновляются в реальном времени</p>
-  <div class="meta-row">
-    <span class="meta-pill">Автор: Елена Безгласная</span>
-    <span class="meta-pill" id="resp-count">Загрузка</span>
-    <span class="meta-pill">Веса по модели Дрейфуса</span>
+  <div class="header-left">
+    <div class="eyebrow">Краудсорсинговое исследование</div>
+    <div class="header-title">Biz Helper <em>CrowdMap</em></div>
+    <div class="header-subtitle">Сравнительная карта 12 ролей помогаторов предпринимательских проектов по 9 критериям — данные обновляются в реальном времени</div>
   </div>
-  <div class="header-nav">
-    <a href="#legend" class="hnav-link">Легенда критериев</a>
-    <a href="https://forms.gle/SwmzpnnQrX2wQDpg9" target="_blank" class="hnav-link">Участвовать в исследовании</a>
+  <div class="header-right">
+    <span class="roles-count" id="roles-count">12 ролей</span>
+    <a href="#legend" class="hbtn">Легенда</a>
+    <a href="https://forms.gle/SwmzpnnQrX2wQDpg9" target="_blank" class="hbtn hbtn-gold">Участвовать</a>
   </div>
 </header>
 
@@ -216,7 +274,7 @@ footer a:hover { color: var(--c-brown); text-decoration: underline; }
   <span id="status-text">Загружаем актуальные данные</span>
 </div>
 
-<div class="map-wrapper">
+<div class="map-outer">
   <div class="map-grid" id="grid"></div>
   <div class="axis-row" id="axis-row"></div>
 </div>
@@ -236,11 +294,10 @@ footer a:hover { color: var(--c-brown); text-decoration: underline; }
   <div class="scale-item"><div class="scale-swatch" style="background:#8B3A1A"></div>−3 ярко</div>
 </div>
 
-<!-- LEGEND SECTION -->
 <section id="legend">
   <div class="legend-header">
     <h2>Легенда критериев</h2>
-    <span>9 осей оценки — полюса и расшифровка каждого значения</span>
+    <span>9 осей оценки — расшифровка каждого значения</span>
   </div>
   <div class="legend-body">
     <div class="legend-grid" id="legend-grid"></div>
@@ -251,13 +308,17 @@ footer a:hover { color: var(--c-brown); text-decoration: underline; }
   <div>
     <p>Biz Helper CrowdMap — краудсорсинговый проект Елены Безгласной</p>
     <p>Канал «Без шума»: <a href="https://t.me/bezshuma_channel" target="_blank">t.me/bezshuma_channel</a></p>
+    <p>Контакт: <a href="https://t.me/Elena_Bezglasnaia" target="_blank">@Elena_Bezglasnaia</a></p>
     <p>Участвовать: <a href="https://forms.gle/SwmzpnnQrX2wQDpg9" target="_blank">ссылка на анкету</a></p>
+    <p class="footer-copy">© 2026 ИП Безгласная Елена Алексеевна · ИНН 631503578469</p>
   </div>
   <div>
     <p>Методология: взвешенное среднее по модели Дрейфуса<br>
     Dreyfus &amp; Dreyfus, <em>Mind over Machine</em>, 1986</p>
-    <p style="margin-top:0.4rem">Данные: Google Sheets · автообновление каждые 5 минут</p>
-    <p style="margin-top:0.4rem"><a href="https://tracker63.tilda.ws/privacy" target="_blank">Политика обработки персональных данных</a></p>
+    <p style="margin-top:0.5rem">Код виджета: <a href="https://opensource.org/licenses/MIT" target="_blank">MIT License</a><br>
+    Данные исследования: <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0</a> — используйте со ссылкой на автора</p>
+    <p style="margin-top:0.5rem">Данные: Google Sheets · автообновление каждые 5 минут</p>
+    <p style="margin-top:0.5rem"><a href="https://tracker63.tilda.ws/privacy" target="_blank">Политика обработки персональных данных</a></p>
   </div>
 </footer>
 
@@ -277,27 +338,27 @@ const CRITERIA = [
 ];
 
 const LABELS = {
-  'Объект работы':      { 3:'Работает только с человеком: мышление, состояние, решения', 2:'Фокус на человеке, бизнес — контекст', 1:'Больше человек, но через бизнес-контекст', [-1]:'Больше бизнес, но учитывает человека', [-2]:'Фокус на бизнесе, человек — через задачи', [-3]:'Работает с бизнес-системой: метрики, процессы, структура' },
-  'Направление знания': { 3:'Только извлекает: задаёт вопросы, не даёт ответов', 2:'Преимущественно извлекает знание из подопечного', 1:'Чуть больше извлекает через вопросы', [-1]:'Чуть больше передаёт, чем извлекает', [-2]:'Преимущественно передаёт, редко спрашивает', [-3]:'Передаёт своё знание: готовые ответы, решения, методология' },
-  'Инициатива':         { 3:'Только запрос подопечного — без него работа не начинается', 2:'Подопечный формирует запрос, помогатор следует', 1:'Подопечный инициирует, помогатор уточняет', [-1]:'Помогатор предлагает структуру, подопечный корректирует', [-2]:'Помогатор ведёт, подопечный реагирует', [-3]:'Помогатор полностью задаёт повестку и структуру' },
-  'Дистанция':          { 3:'Действующий участник внутри команды', 2:'Активный участник, влияет на процесс', 1:'Регулярно включается в работу команды', [-1]:'Наблюдает с комментариями, иногда включается', [-2]:'Дистанцирован, редко входит в оперативную работу', [-3]:'Полностью внешний: оценивает со стороны, не входит в процесс' },
-  'Горизонт':           { 3:'Только операционный: конкретные действия, задачи, инструменты', 2:'Преимущественно операционный уровень', 1:'Тактика с выходом на операционные задачи', [-1]:'Стратегия с выходом на тактику', [-2]:'Преимущественно стратегия', [-3]:'Только стратегический уровень: смыслы, направление, картина целиком' },
-  'Отношения':          { 3:'Глубокий личный контакт — без него работа невозможна', 2:'Поддерживающие отношения, личное — часть работы', 1:'Есть личный контакт, но в рамках роли', [-1]:'Профессиональный контакт без личной составляющей', [-2]:'Преимущественно транзакционный, минимум личного', [-3]:'Чисто транзакционный: задача выполнена — контакт закрыт' },
-  'Метод':              { 3:'Метод полностью подбирается под конкретного человека', 2:'Преимущественно индивидуальная настройка', 1:'Метод гибкий, адаптируется под контекст', [-1]:'Есть структура, небольшая гибкость', [-2]:'Строгая методология с минимальными вариациями', [-3]:'Фиксированный протокол: отклонение от метода — ошибка' },
-  'Ответственность':    { 3:'Ответственность полностью у подопечного', 2:'Помогатор создаёт условия, решение и результат — у подопечного', 1:'Ответственность больше у подопечного', [-1]:'Ответственность больше у помогатора', [-2]:'Помогатор несёт основную ответственность', [-3]:'Помогатор берёт ответственность за итог на себя' },
-  'Длительность':       { 3:'Постоянные регулярные встречи без фиксированного конца', 2:'Систематическое взаимодействие, длительные отношения', 1:'Регулярные встречи в рамках программы', [-1]:'Краткосрочный проект с фиксированным финалом', [-2]:'Несколько встреч в рамках одной задачи', [-3]:'Разовый контакт: сессия, встреча, оценка' },
+  'Объект работы':      {3:'Работает только с человеком: мышление, состояние, решения',2:'Фокус на человеке, бизнес — контекст',1:'Больше человек, но через бизнес-контекст',[-1]:'Больше бизнес, но учитывает человека',[-2]:'Фокус на бизнесе, человек — через задачи',[-3]:'Работает с бизнес-системой: метрики, процессы, структура'},
+  'Направление знания': {3:'Только извлекает: задаёт вопросы, не даёт ответов',2:'Преимущественно извлекает знание из подопечного',1:'Чуть больше извлекает через вопросы',[-1]:'Чуть больше передаёт, чем извлекает',[-2]:'Преимущественно передаёт, редко спрашивает',[-3]:'Передаёт своё знание: готовые ответы, решения, методология'},
+  'Инициатива':         {3:'Только запрос подопечного — без него работа не начинается',2:'Подопечный формирует запрос, помогатор следует',1:'Подопечный инициирует, помогатор уточняет',[-1]:'Помогатор предлагает структуру, подопечный корректирует',[-2]:'Помогатор ведёт, подопечный реагирует',[-3]:'Помогатор полностью задаёт повестку и структуру'},
+  'Дистанция':          {3:'Действующий участник внутри команды',2:'Активный участник, влияет на процесс',1:'Регулярно включается в работу команды',[-1]:'Наблюдает с комментариями, иногда включается',[-2]:'Дистанцирован, редко входит в оперативную работу',[-3]:'Полностью внешний: оценивает со стороны, не входит в процесс'},
+  'Горизонт':           {3:'Только операционный: конкретные действия, задачи, инструменты',2:'Преимущественно операционный уровень',1:'Тактика с выходом на операционные задачи',[-1]:'Стратегия с выходом на тактику',[-2]:'Преимущественно стратегия',[-3]:'Только стратегический уровень: смыслы, направление, картина целиком'},
+  'Отношения':          {3:'Глубокий личный контакт — без него работа невозможна',2:'Поддерживающие отношения, личное — часть работы',1:'Есть личный контакт, но в рамках роли',[-1]:'Профессиональный контакт без личной составляющей',[-2]:'Преимущественно транзакционный, минимум личного',[-3]:'Чисто транзакционный: задача выполнена — контакт закрыт'},
+  'Метод':              {3:'Метод полностью подбирается под конкретного человека',2:'Преимущественно индивидуальная настройка',1:'Метод гибкий, адаптируется под контекст',[-1]:'Есть структура, небольшая гибкость',[-2]:'Строгая методология с минимальными вариациями',[-3]:'Фиксированный протокол: отклонение от метода — ошибка'},
+  'Ответственность':    {3:'Ответственность полностью у подопечного',2:'Помогатор создаёт условия, решение и результат — у подопечного',1:'Ответственность больше у подопечного',[-1]:'Ответственность больше у помогатора',[-2]:'Помогатор несёт основную ответственность',[-3]:'Помогатор берёт ответственность за итог на себя'},
+  'Длительность':       {3:'Постоянные регулярные встречи без фиксированного конца',2:'Систематическое взаимодействие, длительные отношения',1:'Регулярные встречи в рамках программы',[-1]:'Краткосрочный проект с фиксированным финалом',[-2]:'Несколько встреч в рамках одной задачи',[-3]:'Разовый контакт: сессия, встреча, оценка'},
 };
 
-const VAL_CLASSES = { 3:'lv-pos3', 2:'lv-pos2', 1:'lv-pos1', 0:'lv-zero', [-1]:'lv-neg1', [-2]:'lv-neg2', [-3]:'lv-neg3' };
+const VAL_CLASSES = {3:'lv-pos3',2:'lv-pos2',1:'lv-pos1',0:'lv-zero',[-1]:'lv-neg1',[-2]:'lv-neg2',[-3]:'lv-neg3'};
 
 function getColor(v) {
-  if (v >= 2.5)  return { bg:'#1A6B47', fg:'#fff' };
-  if (v >= 1.5)  return { bg:'#4A9E72', fg:'#fff' };
-  if (v >= 0.5)  return { bg:'#9FD4B5', fg:'#2C1A0E' };
-  if (v >= -0.5) return { bg:'#EDE8DA', fg:'#8C6D4F' };
-  if (v >= -1.5) return { bg:'#D4A574', fg:'#2C1A0E' };
-  if (v >= -2.5) return { bg:'#B8693A', fg:'#fff' };
-  return { bg:'#8B3A1A', fg:'#fff' };
+  if (v >= 2.5)  return {bg:'#1A6B47',fg:'#fff'};
+  if (v >= 1.5)  return {bg:'#4A9E72',fg:'#fff'};
+  if (v >= 0.5)  return {bg:'#9FD4B5',fg:'#2C1A0E'};
+  if (v >= -0.5) return {bg:'#EDE8DA',fg:'#8C6D4F'};
+  if (v >= -1.5) return {bg:'#D4A574',fg:'#2C1A0E'};
+  if (v >= -2.5) return {bg:'#B8693A',fg:'#fff'};
+  return {bg:'#8B3A1A',fg:'#fff'};
 }
 
 function fmtVal(v) { return (v > 0 ? '+' : '') + v.toFixed(2); }
@@ -311,7 +372,7 @@ function buildTooltip(role, crit, val) {
   if (r === 0) {
     html += `<div class="tip-neutral">Критерий не выражен — роль нейтральна по этому параметру</div>`;
   } else {
-    if (isDec) html += `<div class="tip-scale-label">Округлено до ${r > 0 ? '+' : ''}${r} для расшифровки шкалы</div>`;
+    if (isDec) html += `<div class="tip-scale-label">Округлено до ${r > 0?'+':''}${r} для расшифровки шкалы</div>`;
     html += `<div class="tip-body">${label || 'Нет расшифровки'}</div>`;
   }
   return html;
@@ -330,47 +391,50 @@ function parseCSV(text) {
 
 const SKIP = ['Легенда','Стартовые','Источник','Формула','Таблица','Biz Helper'];
 let selectedCell = null;
-let rawData = []; // [{role, vals:[v0..v8]}]
-let sortCol = null; // null | index 0..8
+let rawData = [];
+let sortCol = null; // null = исходный, -1 = по роли, 0..8 = по критерию
 let sortDir = null; // 'asc' | 'desc'
 
-function getSortedData() {
-  if (sortCol === null) return [...rawData];
-  return [...rawData].sort((a, b) => {
+function getSorted() {
+  const d = [...rawData];
+  if (sortCol === null) return d;
+  return d.sort((a, b) => {
+    if (sortCol === -1) {
+      const cmp = a.role.localeCompare(b.role, 'ru');
+      return sortDir === 'asc' ? cmp : -cmp;
+    }
     const va = a.vals[sortCol] ?? null;
     const vb = b.vals[sortCol] ?? null;
     if (va === null && vb === null) return a.role.localeCompare(b.role, 'ru');
-    if (va === null) return 1;
-    if (vb === null) return -1;
+    if (va === null) return 1; if (vb === null) return -1;
     const diff = sortDir === 'asc' ? va - vb : vb - va;
-    if (diff !== 0) return diff;
-    return a.role.localeCompare(b.role, 'ru');
+    return diff !== 0 ? diff : a.role.localeCompare(b.role, 'ru');
   });
 }
 
-function renderGrid() {
-  const grid = document.getElementById('grid');
-  // Удаляем только строки данных, оставляем заголовки (первые 10 элементов)
-  const headers = Array.from(grid.children).slice(0, 10);
-  grid.innerHTML = '';
-  headers.forEach(h => grid.appendChild(h));
+function clearSortUI() {
+  document.querySelectorAll('.col-header, .corner-cell').forEach(x =>
+    x.classList.remove('active','sort-asc','sort-desc')
+  );
+}
 
-  const sorted = getSortedData();
-  sorted.forEach((rowData, ri) => {
-    const isLast = ri === sorted.length - 1;
+function renderRows() {
+  const grid = document.getElementById('grid');
+  // Удаляем строки данных, оставляем заголовки (10 элементов)
+  while (grid.children.length > 10) grid.removeChild(grid.lastChild);
+
+  getSorted().forEach((row, ri) => {
+    const isLast = ri === rawData.length - 1;
 
     const rc = document.createElement('div');
     rc.className = 'role-cell';
-    if (isLast) rc.style.borderBottom = 'none';
-    rc.textContent = rowData.role;
+    rc.textContent = row.role;
     grid.appendChild(rc);
 
     CRITERIA.forEach((c, ci) => {
-      const val = rowData.vals[ci];
+      const val = row.vals[ci];
       const cell = document.createElement('div');
       cell.className = 'val-cell' + (val === null ? ' empty' : '');
-      if (isLast) cell.style.borderBottom = 'none';
-      if (ci === 8) cell.style.borderRight = 'none';
 
       const num = document.createElement('span');
       num.className = 'val-num';
@@ -379,26 +443,18 @@ function renderGrid() {
         cell.style.background = col.bg;
         num.style.color = col.fg;
         num.textContent = fmtVal(val);
-      } else {
-        num.textContent = '—';
-      }
+      } else { num.textContent = '—'; }
       cell.appendChild(num);
 
       cell.addEventListener('click', () => {
         if (selectedCell) selectedCell.classList.remove('selected');
-        cell.classList.add('selected');
-        selectedCell = cell;
-        if (val !== null) {
-          document.getElementById('tooltip').innerHTML = buildTooltip(rowData.role, c, val);
-        } else {
-          document.getElementById('tooltip').innerHTML =
-            `<div class="tip-meta">${rowData.role} · ${c.short}</div><div class="tip-neutral">Нет данных</div>`;
-        }
-        document.querySelectorAll('.col-header').forEach(x => x.classList.remove('active'));
-        const hdr = document.getElementById(`hdr-${ci}`);
-        if (hdr) hdr.classList.add('active');
+        cell.classList.add('selected'); selectedCell = cell;
+        document.getElementById('tooltip').innerHTML =
+          val !== null ? buildTooltip(row.role, c, val) :
+          `<div class="tip-meta">${row.role} · ${c.short}</div><div class="tip-neutral">Нет данных</div>`;
+        clearSortUI();
+        document.getElementById(`hdr-${ci}`)?.classList.add('active');
       });
-
       grid.appendChild(cell);
     });
   });
@@ -408,32 +464,33 @@ function buildGrid(rows) {
   const grid = document.getElementById('grid');
   grid.innerHTML = '';
 
-  // Corner
+  // Corner — сортировка по алфавиту
   const corner = document.createElement('div');
   corner.className = 'corner-cell';
-  corner.innerHTML = '<span class="corner-label">Роль</span>';
+  corner.innerHTML = '<span class="corner-label">Роль<span class="sort-indicator"></span></span>';
+  corner.title = 'Сортировать по алфавиту';
+  corner.addEventListener('click', () => {
+    clearSortUI();
+    if (sortCol === -1 && sortDir === 'asc') { sortCol = -1; sortDir = 'desc'; corner.classList.add('sort-desc'); }
+    else if (sortCol === -1 && sortDir === 'desc') { sortCol = null; sortDir = null; }
+    else { sortCol = -1; sortDir = 'asc'; corner.classList.add('sort-asc'); }
+    renderRows();
+  });
   grid.appendChild(corner);
 
-  // Headers с сортировкой
+  // Col headers
   CRITERIA.forEach((c, ci) => {
     const h = document.createElement('div');
-    h.className = 'col-header';
-    h.id = `hdr-${ci}`;
+    h.className = 'col-header'; h.id = `hdr-${ci}`;
     h.innerHTML = `<span class="col-header-name">${c.short}<span class="sort-indicator"></span></span>`;
     h.title = `Сортировать по «${c.short}»`;
     h.addEventListener('click', () => {
-      document.querySelectorAll('.col-header').forEach(x => {
-        x.classList.remove('active','sort-asc','sort-desc');
-      });
-      if (sortCol === ci) {
-        if (sortDir === 'desc') { sortDir = 'asc'; h.classList.add('sort-asc'); }
-        else { sortCol = null; sortDir = null; }
-      } else {
-        sortCol = ci; sortDir = 'desc';
-        h.classList.add('sort-desc');
-      }
+      clearSortUI();
+      if (sortCol === ci && sortDir === 'desc') { sortDir = 'asc'; h.classList.add('sort-asc'); }
+      else if (sortCol === ci && sortDir === 'asc') { sortCol = null; sortDir = null; }
+      else { sortCol = ci; sortDir = 'desc'; h.classList.add('sort-desc'); }
       h.classList.add('active');
-      renderGrid();
+      renderRows();
     });
     grid.appendChild(h);
   });
@@ -449,53 +506,43 @@ function buildGrid(rows) {
     axisRow.appendChild(al);
   });
 
-  // Parse data
+  // Parse
   rawData = rows.slice(1)
     .filter(r => r[0] && r[0].trim() !== '' && !SKIP.some(p => r[0].startsWith(p)))
     .map(row => ({
       role: row[0],
       vals: CRITERIA.map((_, ci) => {
-        const raw = row[ci + 1];
+        const raw = row[ci+1];
         return (raw !== undefined && raw !== '') ? parseFloat(raw) : null;
       })
     }));
 
-  renderGrid();
-
-  document.getElementById('resp-count').textContent = `Ролей в карте: ${rawData.length}`;
+  renderRows();
+  document.getElementById('roles-count').textContent = `${rawData.length} ролей`;
   document.getElementById('status-text').textContent = `Данные загружены · ${rawData.length} ролей · взвешенное среднее`;
 }
 
-// Build legend
 function buildLegend() {
   const container = document.getElementById('legend-grid');
   CRITERIA.forEach(c => {
     const card = document.createElement('div');
     card.className = 'legend-crit';
-    let html = `<div class="legend-crit-name">${c.short}</div>`;
-    html += `<div class="legend-crit-axis">${c.axis}</div>`;
-    html += `<div class="legend-scale">`;
+    let html = `<div class="legend-crit-name">${c.short}</div><div class="legend-crit-axis">${c.axis}</div><div class="legend-scale">`;
     [3,2,1,0,-1,-2,-3].forEach(v => {
       const cls = VAL_CLASSES[v] || '';
       const label = v === 0 ? 'Критерий не выражен' : (LABELS[c.short][v] || '');
       const sign = v > 0 ? '+' : '';
       const descCls = v === 0 ? 'legend-neutral' : 'legend-desc';
-      html += `<div class="legend-row">
-        <span class="legend-val ${cls}">${sign}${v}</span>
-        <span class="${descCls}">${label}</span>
-      </div>`;
+      html += `<div class="legend-row"><span class="legend-val ${cls}">${sign}${v}</span><span class="${descCls}">${label}</span></div>`;
     });
-    html += `</div>`;
+    html += '</div>';
     card.innerHTML = html;
     container.appendChild(card);
   });
 }
 
-// Back to top
 window.addEventListener('scroll', () => {
-  const btn = document.getElementById('back-top');
-  if (window.scrollY > 300) btn.classList.add('visible');
-  else btn.classList.remove('visible');
+  document.getElementById('back-top').classList.toggle('visible', window.scrollY > 300);
 });
 
 async function loadData() {
