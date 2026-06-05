@@ -39,6 +39,7 @@
   --c-bg:         #F0EAD8;
   --c-bg-card:    #F5F0E4;
   --c-bg-field:   #FAF7F0;
+  --c-bg-neutral: #EDE8DA;
   --c-text:       #2C1A0E;
   --c-border:     rgba(184,147,58,0.35);
   --radius-lg: 12px; --radius-md: 6px; --radius-sm: 4px;
@@ -68,9 +69,8 @@ body { font-family: 'PT Sans', Georgia, serif; background: var(--c-bg); color: v
   max-width: 1100px; margin: 0 auto 1.5rem;
   background: var(--c-dark); border: 1.5px solid var(--c-gold);
   border-radius: var(--radius-lg);
-  padding: 0 1.75rem;
-  height: 72px;
-  display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
+  padding: 1.5rem 2rem;
+  display: flex; align-items: center; justify-content: space-between; gap: 2rem;
   position: relative; overflow: hidden; box-shadow: var(--shadow-lg);
 }
 .site-header::before {
@@ -79,21 +79,19 @@ body { font-family: 'PT Sans', Georgia, serif; background: var(--c-bg); color: v
   pointer-events: none;
 }
 
-.header-left { display: flex; flex-direction: column; gap: 3px; min-width: 0; flex: 1; }
-
-.eyebrow { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--c-gold); }
-
-.header-title { font-size: 1.25rem; font-weight: 700; color: var(--c-bg-card); white-space: nowrap; line-height: 1.1; }
+.header-left { display: flex; flex-direction: column; gap: 5px; min-width: 0; flex: 1; }
+.eyebrow { font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--c-gold); }
+.header-title { font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 700; color: var(--c-bg-card); line-height: 1.05; white-space: nowrap; }
 .header-title em { font-style: normal; color: var(--c-gold); }
+.header-subtitle { font-size: clamp(0.78rem, 1.5vw, 0.88rem); color: var(--c-gold-light); line-height: 1.5; }
 
-.header-subtitle { font-size: 0.72rem; color: var(--c-gold-light); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-.header-right { display: flex; gap: 6px; flex-shrink: 0; align-items: center; }
-
+.header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; flex-shrink: 0; }
+.roles-count { font-size: 0.72rem; color: var(--c-gold-light); }
+.header-btns { display: flex; gap: 6px; }
 .hbtn {
   background: transparent; color: #F5F0E4;
   border: 1px solid rgba(245,240,228,0.3); border-radius: var(--radius-sm);
-  padding: 5px 12px; font-size: 0.72rem; font-family: 'PT Sans', Georgia, sans-serif;
+  padding: 5px 13px; font-size: 0.72rem; font-family: 'PT Sans', Georgia, sans-serif;
   cursor: pointer; white-space: nowrap; letter-spacing: 0.03em;
   text-decoration: none; display: inline-flex; align-items: center;
   transition: border-color 0.15s, background 0.15s;
@@ -102,92 +100,113 @@ body { font-family: 'PT Sans', Georgia, serif; background: var(--c-bg); color: v
 .hbtn.hbtn-gold { border-color: var(--c-gold); color: var(--c-gold); }
 .hbtn.hbtn-gold:hover { background: rgba(184,147,58,0.12); }
 
-.roles-count { font-size: 0.72rem; color: var(--c-gold-light); white-space: nowrap; padding: 0 4px; }
-
 /* ── STATUS ── */
 #status { max-width: 1100px; margin: 0 auto 0.75rem; font-size: 0.78rem; color: var(--c-brown-hint); display: flex; align-items: center; gap: 0.5rem; }
 .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--c-gold); animation: pulse 2.2s infinite; flex-shrink: 0; }
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.25} }
 
-/* ── MAP — плитки ── */
+/* ── MAP ── */
 .map-outer { max-width: 1100px; margin: 0 auto; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 
 .map-grid {
   display: grid;
-  grid-template-columns: 155px repeat(9, minmax(94px, 1fr));
-  gap: 3px;
-  min-width: 1020px;
-  padding: 0 0 0 0;
+  grid-template-columns: 148px repeat(9, minmax(90px, 1fr));
+  gap: 3px; min-width: 980px;
 }
 
 /* corner */
 .corner-cell {
   background: var(--c-dark); border-radius: var(--radius-md);
-  padding: 0.55rem 0.75rem; display: flex; align-items: center;
+  padding: 0 0.7rem;
+  display: flex; flex-direction: column; justify-content: center;
   cursor: pointer; user-select: none; transition: background 0.15s;
+  min-height: 52px;
 }
 .corner-cell:hover, .corner-cell.sort-asc, .corner-cell.sort-desc { background: #3D2410; }
-.corner-label { font-size: 0.68rem; color: var(--c-gold); letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; }
-.corner-cell .sort-indicator { margin-left: 4px; font-size: 0.65rem; opacity: 0.6; }
-.corner-cell.sort-asc .sort-indicator::after  { content: '↑'; opacity: 1; }
-.corner-cell.sort-desc .sort-indicator::after { content: '↓'; opacity: 1; }
-.corner-cell:not(.sort-asc):not(.sort-desc) .sort-indicator::after { content: '↕'; }
+.corner-line1 { font-size: 0.68rem; color: var(--c-gold); letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; line-height: 1.3; min-height: 1.1em; }
+.corner-line2 { font-size: 0.68rem; color: var(--c-gold); letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; line-height: 1.3; display: flex; align-items: center; justify-content: space-between; }
+.sort-arrow { font-size: 0.65rem; color: var(--c-gold-mid); margin-left: 4px; flex-shrink: 0; transition: color 0.15s; }
+.corner-cell.sort-asc  .sort-arrow, .corner-cell.sort-desc  .sort-arrow { color: var(--c-gold); }
 
-/* col headers */
+/* col headers — всегда две строки */
 .col-header {
   background: var(--c-dark); border-radius: var(--radius-md);
-  padding: 0.5rem 0.4rem; text-align: center;
+  padding: 0.45rem 0.4rem;
+  display: flex; flex-direction: column; justify-content: center;
   cursor: pointer; transition: background 0.15s; user-select: none;
+  min-height: 52px;
 }
 .col-header:hover, .col-header.active { background: #3D2410; }
-.col-header-name { display: block; font-size: 0.76rem; font-weight: 700; color: var(--c-gold-light); line-height: 1.2; }
-.col-header.active .col-header-name { color: var(--c-gold); }
-.sort-indicator { display: inline-block; font-size: 0.62rem; margin-left: 3px; opacity: 0.5; vertical-align: middle; }
-.col-header.sort-asc .sort-indicator::after  { content: '↑'; opacity: 1; color: var(--c-gold); }
-.col-header.sort-desc .sort-indicator::after { content: '↓'; opacity: 1; color: var(--c-gold); }
-.col-header:not(.sort-asc):not(.sort-desc) .sort-indicator::after { content: '↕'; }
 
-/* role cells */
+.col-line1 {
+  font-size: 0.74rem; font-weight: 700; color: var(--c-gold-light);
+  line-height: 1.25; text-align: center; min-height: 1.1em;
+}
+.col-header.active .col-line1 { color: var(--c-gold); }
+
+.col-line2 {
+  font-size: 0.74rem; font-weight: 700; color: var(--c-gold-light);
+  line-height: 1.25; text-align: center;
+  display: flex; align-items: center; justify-content: center; gap: 3px;
+}
+.col-header.active .col-line2 { color: var(--c-gold); }
+
+.col-arrow { font-size: 0.62rem; color: var(--c-gold-mid); flex-shrink: 0; transition: color 0.15s; }
+.col-header.sort-asc  .col-arrow,
+.col-header.sort-desc .col-arrow { color: var(--c-gold); }
+
+/* role cells — цвет как нулевые ячейки */
 .role-cell {
-  background: var(--c-bg-field); border-radius: var(--radius-md);
-  padding: 0 0.75rem; font-size: 0.88rem; font-weight: 700; color: var(--c-dark);
-  display: flex; align-items: center; min-height: 44px;
-  box-shadow: var(--shadow);
+  background: var(--c-bg-neutral);
+  border-radius: var(--radius-md);
+  padding: 0 0.7rem;
+  font-size: 0.86rem; font-weight: 700;
+  color: var(--c-dark);
+  font-family: 'PT Sans', Georgia, sans-serif;
+  display: flex; align-items: center;
+  min-height: 38px;
+  box-shadow: 0 1px 3px rgba(44,26,14,0.06);
 }
 
-/* value cells — плитки со скруглением */
+/* value cells — компактнее */
 .val-cell {
   border-radius: var(--radius-md);
   display: flex; align-items: center; justify-content: center;
-  min-height: 44px; cursor: pointer;
+  min-height: 38px; cursor: pointer;
   transition: filter 0.12s, transform 0.1s;
   position: relative;
-  box-shadow: 0 1px 4px rgba(44,26,14,0.08);
+  box-shadow: 0 1px 3px rgba(44,26,14,0.08);
 }
 .val-cell:hover { filter: brightness(1.1); transform: scale(1.06); z-index: 2; }
 .val-cell.selected { outline: 2.5px solid var(--c-dark); outline-offset: -2px; z-index: 3; }
-.val-num { font-family: Georgia, serif; font-size: 1rem; font-weight: 700; letter-spacing: -0.02em; }
-.val-cell.empty { background: var(--c-bg-field) !important; box-shadow: none; }
-.val-cell.empty .val-num { font-size: 0.7rem; color: var(--c-brown-hint); font-family: 'PT Sans', sans-serif; }
+
+.val-num {
+  font-family: Georgia, serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.val-cell.empty { background: var(--c-bg-neutral) !important; box-shadow: none; }
+.val-cell.empty .val-num { font-size: 0.68rem; color: var(--c-brown-hint); font-family: 'PT Sans', sans-serif; }
 
 /* axis row */
 .axis-row {
   display: grid;
-  grid-template-columns: 155px repeat(9, minmax(94px, 1fr));
-  gap: 3px; min-width: 1020px; padding: 5px 0 3px;
+  grid-template-columns: 148px repeat(9, minmax(90px, 1fr));
+  gap: 3px; min-width: 980px; padding: 5px 0 3px;
 }
-.axis-label { font-size: 0.6rem; color: var(--c-brown-hint); text-align: center; padding: 0 4px; line-height: 1.3; }
+.axis-label { font-size: 0.58rem; color: var(--c-brown-hint); text-align: center; padding: 0 3px; line-height: 1.3; }
 
 /* ── TOOLTIP ── */
 #tooltip {
   max-width: 1100px; margin: 0.85rem auto 0;
   background: var(--c-bg-card); border: 1px solid var(--c-border);
   border-left: 3px solid var(--c-gold); border-radius: var(--radius-lg);
-  padding: 0.9rem 1.25rem; min-height: 62px; box-shadow: var(--shadow);
+  padding: 0.9rem 1.25rem; min-height: 60px; box-shadow: var(--shadow);
 }
 #tooltip .tip-meta { font-size: 0.68rem; font-weight: 700; color: var(--c-brown); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.3rem; }
-#tooltip .tip-scale-label { font-size: 0.7rem; color: var(--c-brown-hint); font-style: italic; margin-bottom: 0.15rem; }
-#tooltip .tip-body { font-size: 0.93rem; color: var(--c-text); line-height: 1.5; }
+#tooltip .tip-scale-label { font-size: 0.68rem; color: var(--c-brown-hint); font-style: italic; margin-bottom: 0.15rem; }
+#tooltip .tip-body { font-size: 0.92rem; color: var(--c-text); line-height: 1.5; }
 #tooltip .tip-neutral { font-size: 0.85rem; color: var(--c-brown-hint); font-style: italic; }
 #tooltip .tip-hint { font-size: 0.83rem; color: var(--c-brown-hint); font-style: italic; }
 
@@ -202,7 +221,7 @@ body { font-family: 'PT Sans', Georgia, serif; background: var(--c-bg); color: v
 .scale-item { display: flex; align-items: center; gap: 4px; font-size: 0.72rem; color: var(--c-brown-hint); }
 .scale-swatch { width: 24px; height: 15px; border-radius: 3px; flex-shrink: 0; }
 
-/* ── LEGEND SECTION ── */
+/* ── LEGEND ── */
 #legend { scroll-margin-top: 1rem; max-width: 1100px; margin: 2rem auto 0; }
 .legend-header {
   background: var(--c-dark); border: 1.5px solid var(--c-gold);
@@ -217,10 +236,7 @@ body { font-family: 'PT Sans', Georgia, serif; background: var(--c-bg); color: v
   padding: 1.25rem 1.5rem; box-shadow: var(--shadow);
 }
 .legend-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
-.legend-crit {
-  border: 1px solid var(--c-border); border-left: 3px solid var(--c-gold);
-  border-radius: var(--radius-md); padding: 0.8rem 1rem; background: var(--c-bg-field);
-}
+.legend-crit { border: 1px solid var(--c-border); border-left: 3px solid var(--c-gold); border-radius: var(--radius-md); padding: 0.8rem 1rem; background: var(--c-bg-field); }
 .legend-crit-name { font-size: 0.78rem; font-weight: 700; color: var(--c-dark); margin-bottom: 0.3rem; }
 .legend-crit-axis { font-size: 0.65rem; color: var(--c-brown-hint); margin-bottom: 0.55rem; font-style: italic; }
 .legend-scale { display: flex; flex-direction: column; gap: 3px; }
@@ -233,11 +249,7 @@ body { font-family: 'PT Sans', Georgia, serif; background: var(--c-bg); color: v
 .lv-neg1{color:#9A5A2A} .lv-neg2{color:#B8693A} .lv-neg3{color:#8B3A1A}
 
 /* ── FOOTER ── */
-footer {
-  max-width: 1100px; margin: 2.5rem auto 0;
-  border-top: 1px solid var(--c-border); padding-top: 1.25rem;
-  display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;
-}
+footer { max-width: 1100px; margin: 2.5rem auto 0; border-top: 1px solid var(--c-border); padding-top: 1.25rem; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; }
 footer p { font-size: 0.72rem; color: var(--c-brown-hint); line-height: 1.7; }
 footer a { color: var(--c-gold); text-decoration: none; }
 footer a:hover { color: var(--c-brown); text-decoration: underline; }
@@ -263,9 +275,11 @@ footer a:hover { color: var(--c-brown); text-decoration: underline; }
     <div class="header-subtitle">Сравнительная карта 12 ролей помогаторов предпринимательских проектов по 9 критериям — данные обновляются в реальном времени</div>
   </div>
   <div class="header-right">
-    <span class="roles-count" id="roles-count">12 ролей</span>
-    <a href="#legend" class="hbtn">Легенда</a>
-    <a href="https://forms.gle/SwmzpnnQrX2wQDpg9" target="_blank" class="hbtn hbtn-gold">Участвовать</a>
+    <span class="roles-count" id="roles-count">12 ролей · взвешенное среднее</span>
+    <div class="header-btns">
+      <a href="#legend" class="hbtn">Легенда</a>
+      <a href="https://forms.gle/SwmzpnnQrX2wQDpg9" target="_blank" class="hbtn hbtn-gold">Участвовать</a>
+    </div>
   </div>
 </header>
 
@@ -325,16 +339,17 @@ footer a:hover { color: var(--c-brown); text-decoration: underline; }
 <script>
 const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQmmMJImFfGArpgXPXDx8HDVjgLNzPeUsuzFfxQtwmnyoOUW2hUkBALTZF1kTmJ-wf9EySuB3CsKduu/pub?gid=1755453408&single=true&output=csv';
 
+// Каждый критерий: line1 = первая строка заголовка, line2 = вторая строка
 const CRITERIA = [
-  { short: 'Объект работы',      axis: '−бизнес / +человек' },
-  { short: 'Направление знания', axis: '−передаёт / +извлекает' },
-  { short: 'Инициатива',         axis: '−помогатор / +подопечный' },
-  { short: 'Дистанция',          axis: '−наблюдатель / +участник' },
-  { short: 'Горизонт',           axis: '−стратегия / +операция' },
-  { short: 'Отношения',          axis: '−транзакция / +поддержка' },
-  { short: 'Метод',              axis: '−протокол / +адаптация' },
-  { short: 'Ответственность',    axis: '−помогатор / +подопечный' },
-  { short: 'Длительность',       axis: '−разово / +систематически' },
+  { line1: 'Объект',        line2: 'работы',        short: 'Объект работы',      axis: '−бизнес / +человек' },
+  { line1: 'Направление',   line2: 'знания',         short: 'Направление знания', axis: '−передаёт / +извлекает' },
+  { line1: '',              line2: 'Инициатива',     short: 'Инициатива',         axis: '−помогатор / +подопечный' },
+  { line1: '',              line2: 'Дистанция',      short: 'Дистанция',          axis: '−наблюдатель / +участник' },
+  { line1: '',              line2: 'Горизонт',       short: 'Горизонт',           axis: '−стратегия / +операция' },
+  { line1: '',              line2: 'Отношения',      short: 'Отношения',          axis: '−транзакция / +поддержка' },
+  { line1: '',              line2: 'Метод',          short: 'Метод',              axis: '−протокол / +адаптация' },
+  { line1: 'Ответствен-',  line2: 'ность',          short: 'Ответственность',    axis: '−помогатор / +подопечный' },
+  { line1: '',              line2: 'Длительность',   short: 'Длительность',       axis: '−разово / +систематически' },
 ];
 
 const LABELS = {
@@ -372,7 +387,7 @@ function buildTooltip(role, crit, val) {
   if (r === 0) {
     html += `<div class="tip-neutral">Критерий не выражен — роль нейтральна по этому параметру</div>`;
   } else {
-    if (isDec) html += `<div class="tip-scale-label">Округлено до ${r > 0?'+':''}${r} для расшифровки шкалы</div>`;
+    if (isDec) html += `<div class="tip-scale-label">Округлено до ${r>0?'+':''}${r} для расшифровки шкалы</div>`;
     html += `<div class="tip-body">${label || 'Нет расшифровки'}</div>`;
   }
   return html;
@@ -392,19 +407,18 @@ function parseCSV(text) {
 const SKIP = ['Легенда','Стартовые','Источник','Формула','Таблица','Biz Helper'];
 let selectedCell = null;
 let rawData = [];
-let sortCol = null; // null = исходный, -1 = по роли, 0..8 = по критерию
-let sortDir = null; // 'asc' | 'desc'
+let sortCol = null; // null=исходный, -1=роль, 0..8=критерий
+let sortDir = null;
 
 function getSorted() {
   const d = [...rawData];
   if (sortCol === null) return d;
   return d.sort((a, b) => {
     if (sortCol === -1) {
-      const cmp = a.role.localeCompare(b.role, 'ru');
-      return sortDir === 'asc' ? cmp : -cmp;
+      const c = a.role.localeCompare(b.role, 'ru');
+      return sortDir === 'asc' ? c : -c;
     }
-    const va = a.vals[sortCol] ?? null;
-    const vb = b.vals[sortCol] ?? null;
+    const va = a.vals[sortCol] ?? null, vb = b.vals[sortCol] ?? null;
     if (va === null && vb === null) return a.role.localeCompare(b.role, 'ru');
     if (va === null) return 1; if (vb === null) return -1;
     const diff = sortDir === 'asc' ? va - vb : vb - va;
@@ -412,20 +426,38 @@ function getSorted() {
   });
 }
 
-function clearSortUI() {
-  document.querySelectorAll('.col-header, .corner-cell').forEach(x =>
-    x.classList.remove('active','sort-asc','sort-desc')
-  );
+function arrowChar(el, col) {
+  const isActive = sortCol === col;
+  if (!isActive) return '↕';
+  return sortDir === 'asc' ? '↑' : '↓';
+}
+
+function updateArrows() {
+  // Corner
+  const corner = document.getElementById('corner-cell');
+  if (corner) {
+    const arr = corner.querySelector('.sort-arrow');
+    if (arr) arr.textContent = arrowChar(corner, -1);
+    corner.classList.toggle('sort-asc',  sortCol === -1 && sortDir === 'asc');
+    corner.classList.toggle('sort-desc', sortCol === -1 && sortDir === 'desc');
+  }
+  // Col headers
+  CRITERIA.forEach((_, ci) => {
+    const h = document.getElementById(`hdr-${ci}`);
+    if (!h) return;
+    const arr = h.querySelector('.col-arrow');
+    if (arr) arr.textContent = arrowChar(h, ci);
+    h.classList.toggle('active',    sortCol === ci);
+    h.classList.toggle('sort-asc',  sortCol === ci && sortDir === 'asc');
+    h.classList.toggle('sort-desc', sortCol === ci && sortDir === 'desc');
+  });
 }
 
 function renderRows() {
   const grid = document.getElementById('grid');
-  // Удаляем строки данных, оставляем заголовки (10 элементов)
   while (grid.children.length > 10) grid.removeChild(grid.lastChild);
 
-  getSorted().forEach((row, ri) => {
-    const isLast = ri === rawData.length - 1;
-
+  getSorted().forEach((row) => {
     const rc = document.createElement('div');
     rc.className = 'role-cell';
     rc.textContent = row.role;
@@ -452,8 +484,6 @@ function renderRows() {
         document.getElementById('tooltip').innerHTML =
           val !== null ? buildTooltip(row.role, c, val) :
           `<div class="tip-meta">${row.role} · ${c.short}</div><div class="tip-neutral">Нет данных</div>`;
-        clearSortUI();
-        document.getElementById(`hdr-${ci}`)?.classList.add('active');
       });
       grid.appendChild(cell);
     });
@@ -464,33 +494,33 @@ function buildGrid(rows) {
   const grid = document.getElementById('grid');
   grid.innerHTML = '';
 
-  // Corner — сортировка по алфавиту
+  // Corner
   const corner = document.createElement('div');
-  corner.className = 'corner-cell';
-  corner.innerHTML = '<span class="corner-label">Роль<span class="sort-indicator"></span></span>';
+  corner.className = 'corner-cell'; corner.id = 'corner-cell';
+  corner.innerHTML = `<div class="corner-line1"></div><div class="corner-line2">РОЛЬ <span class="sort-arrow">↕</span></div>`;
   corner.title = 'Сортировать по алфавиту';
   corner.addEventListener('click', () => {
-    clearSortUI();
-    if (sortCol === -1 && sortDir === 'asc') { sortCol = -1; sortDir = 'desc'; corner.classList.add('sort-desc'); }
+    if (sortCol === -1 && sortDir === 'asc') { sortDir = 'desc'; }
     else if (sortCol === -1 && sortDir === 'desc') { sortCol = null; sortDir = null; }
-    else { sortCol = -1; sortDir = 'asc'; corner.classList.add('sort-asc'); }
-    renderRows();
+    else { sortCol = -1; sortDir = 'asc'; }
+    updateArrows(); renderRows();
   });
   grid.appendChild(corner);
 
-  // Col headers
+  // Col headers — две строки, стрелка всегда в line2
   CRITERIA.forEach((c, ci) => {
     const h = document.createElement('div');
     h.className = 'col-header'; h.id = `hdr-${ci}`;
-    h.innerHTML = `<span class="col-header-name">${c.short}<span class="sort-indicator"></span></span>`;
     h.title = `Сортировать по «${c.short}»`;
+    h.innerHTML = `
+      <div class="col-line1">${c.line1}</div>
+      <div class="col-line2"><span>${c.line2}</span><span class="col-arrow">↕</span></div>
+    `;
     h.addEventListener('click', () => {
-      clearSortUI();
-      if (sortCol === ci && sortDir === 'desc') { sortDir = 'asc'; h.classList.add('sort-asc'); }
+      if (sortCol === ci && sortDir === 'desc') { sortDir = 'asc'; }
       else if (sortCol === ci && sortDir === 'asc') { sortCol = null; sortDir = null; }
-      else { sortCol = ci; sortDir = 'desc'; h.classList.add('sort-desc'); }
-      h.classList.add('active');
-      renderRows();
+      else { sortCol = ci; sortDir = 'desc'; }
+      updateArrows(); renderRows();
     });
     grid.appendChild(h);
   });
@@ -506,7 +536,6 @@ function buildGrid(rows) {
     axisRow.appendChild(al);
   });
 
-  // Parse
   rawData = rows.slice(1)
     .filter(r => r[0] && r[0].trim() !== '' && !SKIP.some(p => r[0].startsWith(p)))
     .map(row => ({
@@ -518,7 +547,7 @@ function buildGrid(rows) {
     }));
 
   renderRows();
-  document.getElementById('roles-count').textContent = `${rawData.length} ролей`;
+  document.getElementById('roles-count').textContent = `${rawData.length} ролей · взвешенное среднее`;
   document.getElementById('status-text').textContent = `Данные загружены · ${rawData.length} ролей · взвешенное среднее`;
 }
 
