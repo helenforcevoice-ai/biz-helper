@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biz Helper CrowdMap</title>
+<link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --c-dark:       #2C1A0E;
+    --c-gold:       #B8933A;
+    --c-gold-mid:   #C9A96E;
+    --c-gold-light: #DDD0B0;
+    --c-brown:      #6B4C2A;
+    --c-brown-hint: #8C6D4F;
+    --c-bg:         #F5F0E4;
+    --c-bg-card:    #FFFFFF;
+    --c-text:       #2C1A0E;
+    --c-border:     #E8E0CC;
+    --radius-lg:    12px;
+    --radius-md:    6px;
+    --shadow:       0 2px 16px rgba(44,26,14,0.08);
+
+    /* тепловая шкала — тёплая палитра */
+    --c3:  #1A6B47;
+    --c2:  #4A9E72;
+    --c1:  #9FD4B5;
+    --c0:  #EDE8DA;
+    --cm1: #D4A574;
+    --cm2: #B8693A;
+    --cm3: #8B3A1A;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'PT Sans', Georgia, serif;
+    background: var(--c-bg);
+    color: var(--c-text);
+    min-height: 100vh;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  /* HEADER */
+  .site-header {
+    max-width: 1100px;
+    margin: 0 auto 2.5rem;
+    background: var(--c-dark);
+    border-radius: var(--radius-lg);
+    padding: 2rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .site-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(184,147,58,0.15) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--c-gold);
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 700;
+    color: var(--c-bg);
+    line-height: 1.15;
+    margin-bottom: 0.5rem;
+  }
+
+  h1 span { color: var(--c-gold); }
+
+  .subtitle {
+    font-size: 0.88rem;
+    color: var(--c-gold-light);
+    line-height: 1.6;
+    max-width: 600px;
+  }
+
+  .meta-row {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .meta-pill {
+    font-size: 0.72rem;
+    color: var(--c-gold);
+    background: rgba(184,147,58,0.12);
+    border: 1px solid rgba(184,147,58,0.3);
+    border-radius: 20px;
+    padding: 0.25rem 0.8rem;
+  }
+
+  /* STATUS */
+  #status {
+    max-width: 1100px;
+    margin: 0 auto 1rem;
+    font-size: 0.78rem;
+    color: var(--c-brown-hint);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--c-gold);
+    animation: pulse 2s infinite;
+    flex-shrink: 0;
+  }
+
+  @keyframes pulse {
+    0%,100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* MAP */
+  .map-wrapper {
+    max-width: 1100px;
+    margin: 0 auto;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .map-grid {
+    display: grid;
+    grid-template-columns: 160px repeat(9, minmax(88px, 1fr));
+    gap: 3px;
+    min-width: 960px;
+  }
+
+  /* HEADER CELLS */
+  .col-header {
+    background: var(--c-bg-card);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-md);
+    padding: 0.6rem 0.4rem;
+    text-align: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--c-brown);
+    line-height: 1.3;
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+    box-shadow: var(--shadow);
+  }
+
+  .col-header:hover, .col-header.active {
+    background: var(--c-dark);
+    color: var(--c-gold);
+    border-color: var(--c-gold);
+  }
+
+  .col-header .axis-hint {
+    display: block;
+    font-size: 0.58rem;
+    color: var(--c-brown-hint);
+    margin-top: 3px;
+    font-weight: 400;
+  }
+
+  .col-header.active .axis-hint { color: var(--c-gold-light); }
+
+  /* ROLE CELLS */
+  .role-cell {
+    background: var(--c-bg-card);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-md);
+    padding: 0.5rem 0.75rem;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--c-dark);
+    display: flex;
+    align-items: center;
+    box-shadow: var(--shadow);
+  }
+
+  /* VALUE CELLS */
+  .val-cell {
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.78rem;
+    font-weight: 700;
+    height: 38px;
+    cursor: pointer;
+    transition: transform 0.1s, filter 0.1s;
+    border: 1.5px solid transparent;
+    position: relative;
+    font-family: 'PT Sans', Georgia, serif;
+  }
+
+  .val-cell:hover {
+    transform: scale(1.1);
+    filter: brightness(1.1);
+    z-index: 2;
+  }
+
+  .val-cell.selected {
+    border-color: var(--c-dark);
+    box-shadow: 0 0 0 2px var(--c-gold);
+    z-index: 3;
+  }
+
+  .val-cell.empty {
+    background: var(--c-bg);
+    border-color: var(--c-border);
+    color: var(--c-brown-hint);
+    font-size: 0.65rem;
+  }
+
+  /* AXIS LABELS */
+  .axis-row {
+    display: grid;
+    grid-template-columns: 160px repeat(9, minmax(88px, 1fr));
+    gap: 3px;
+    min-width: 960px;
+    margin-top: 4px;
+  }
+
+  .axis-label {
+    font-size: 0.58rem;
+    color: var(--c-brown-hint);
+    text-align: center;
+    line-height: 1.3;
+    padding: 0 2px;
+  }
+
+  /* TOOLTIP */
+  #tooltip {
+    max-width: 1100px;
+    margin: 1.25rem auto 0;
+    background: var(--c-bg-card);
+    border: 1px solid var(--c-border);
+    border-left: 3px solid var(--c-gold);
+    border-radius: var(--radius-lg);
+    padding: 1rem 1.25rem;
+    min-height: 64px;
+    box-shadow: var(--shadow);
+  }
+
+  #tooltip .tip-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--c-brown);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+
+  #tooltip .tip-body {
+    font-size: 0.92rem;
+    color: var(--c-text);
+    line-height: 1.5;
+  }
+
+  #tooltip .tip-hint {
+    font-size: 0.82rem;
+    color: var(--c-brown-hint);
+    font-style: italic;
+  }
+
+  /* LEGEND */
+  .legend {
+    max-width: 1100px;
+    margin: 1.25rem auto 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    background: var(--c-bg-card);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-md);
+    padding: 0.75rem 1rem;
+    box-shadow: var(--shadow);
+  }
+
+  .legend-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--c-brown);
+    margin-right: 0.25rem;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.7rem;
+    color: var(--c-brown-hint);
+  }
+
+  .legend-swatch {
+    width: 24px; height: 16px;
+    border-radius: 4px;
+  }
+
+  /* FOOTER */
+  footer {
+    max-width: 1100px;
+    margin: 2.5rem auto 0;
+    border-top: 1px solid var(--c-border);
+    padding-top: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  footer p {
+    font-size: 0.72rem;
+    color: var(--c-brown-hint);
+    line-height: 1.6;
+  }
+
+  footer a {
+    color: var(--c-gold);
+    text-decoration: none;
+  }
+
+  footer a:hover {
+    color: var(--c-brown);
+    text-decoration: underline;
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="eyebrow">Краудсорсинговое исследование</div>
+  <h1>Biz Helper <span>CrowdMap</span></h1>
+  <p class="subtitle">Сравнительная карта 12 ролей помогаторов предпринимательских проектов по 9 критериям. Данные обновляются в реальном времени.</p>
+  <div class="meta-row">
+    <span class="meta-pill">Автор: Елена Безгласная</span>
+    <span class="meta-pill" id="resp-count">Загрузка...</span>
+    <span class="meta-pill">Веса по модели Дрейфуса</span>
+  </div>
+</header>
+
+<div id="status">
+  <span class="dot"></span>
+  <span id="status-text">Загружаем актуальные данные...</span>
+</div>
+
+<div class="map-wrapper">
+  <div class="map-grid" id="grid"></div>
+  <div class="axis-row" id="axis-row"></div>
+</div>
+
+<div id="tooltip">
+  <div class="tip-hint">Нажмите на любую ячейку — увидите расшифровку значения</div>
+</div>
+
+<div class="legend">
+  <span class="legend-label">Шкала:</span>
+  <div class="legend-item"><div class="legend-swatch" style="background:#1A6B47"></div>+3 ярко</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#4A9E72"></div>+2</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#9FD4B5"></div>+1</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#EDE8DA;border:1px solid #E8E0CC"></div>0</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#D4A574"></div>−1</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#B8693A"></div>−2</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#8B3A1A"></div>−3 ярко</div>
+</div>
+
+<footer>
+  <div>
+    <p>Biz Helper CrowdMap — краудсорсинговый проект Елены Безгласной</p>
+    <p>Канал «Без шума»: <a href="https://t.me/bezshuma_channel" target="_blank">t.me/bezshuma_channel</a></p>
+    <p>Участвовать: <a href="https://forms.gle/SwmzpnnQrX2wQDpg9" target="_blank">ссылка на анкету</a></p>
+  </div>
+  <div>
+    <p>Методология: взвешенное среднее по модели Дрейфуса<br>
+    Dreyfus &amp; Dreyfus, Mind over Machine, 1986</p>
+    <p style="margin-top:0.4rem">Данные: Google Sheets · автообновление каждые 5 минут</p>
+  </div>
+</footer>
+
+<script>
+const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQmmMJImFfGArpgXPXDx8HDVjgLNzPeUsuzFfxQtwmnyoOUW2hUkBALTZF1kTmJ-wf9EySuB3CsKduu/pub?gid=1755453408&single=true&output=csv';
+
+const CRITERIA = [
+  { short: 'Объект работы',      axis: '−бизнес / +человек' },
+  { short: 'Направление знания', axis: '−передаёт / +извлекает' },
+  { short: 'Инициатива',         axis: '−помогатор / +подопечный' },
+  { short: 'Дистанция',          axis: '−наблюдатель / +участник' },
+  { short: 'Горизонт',           axis: '−стратегия / +операция' },
+  { short: 'Отношения',          axis: '−транзакция / +поддержка' },
+  { short: 'Метод',              axis: '−протокол / +адаптация' },
+  { short: 'Ответственность',    axis: '−помогатор / +подопечный' },
+  { short: 'Длительность',       axis: '−разово / +систематически' },
+];
+
+const LABELS = {
+  'Объект работы': { '-3':'Работает с бизнес-системой: метрики, процессы, структура','-2':'Фокус на бизнесе, человек — через задачи','-1':'Больше бизнес, но учитывает человека','0':'Балансирует между системой и человеком','1':'Больше человек, но через бизнес-контекст','2':'Фокус на человеке, бизнес — контекст','3':'Работает только с человеком: мышление, состояние, решения' },
+  'Направление знания': { '-3':'Передаёт своё знание: готовые ответы, решения, методология','-2':'Преимущественно передаёт, редко спрашивает','-1':'Чуть больше передаёт, чем извлекает','0':'Равный обмен: и передаёт, и извлекает','1':'Чуть больше извлекает через вопросы','2':'Преимущественно извлекает знание из подопечного','3':'Только извлекает: задаёт вопросы, не даёт ответов' },
+  'Инициатива': { '-3':'Помогатор полностью задаёт повестку и структуру','-2':'Помогатор ведёт, подопечный реагирует','-1':'Помогатор предлагает структуру, подопечный корректирует','0':'Повестка формируется совместно','1':'Подопечный инициирует, помогатор уточняет','2':'Подопечный формирует запрос, помогатор следует','3':'Только запрос подопечного — без него работа не начинается' },
+  'Дистанция': { '-3':'Полностью внешний: оценивает со стороны, не входит в процесс','-2':'Дистанцирован, редко входит в оперативную работу','-1':'Наблюдает с комментариями, иногда включается','0':'Периодически входит в процесс','1':'Регулярно включается в работу команды','2':'Активный участник, влияет на процесс','3':'Действующий участник внутри команды' },
+  'Горизонт': { '-3':'Только стратегический уровень: смыслы, направление, картина целиком','-2':'Преимущественно стратегия','-1':'Стратегия с выходом на тактику','0':'Тактический уровень: планирование, приоритеты','1':'Тактика с выходом на операционные задачи','2':'Преимущественно операционный уровень','3':'Только операционный: конкретные действия, задачи, инструменты' },
+  'Отношения': { '-3':'Чисто транзакционный: задача выполнена — контакт закрыт','-2':'Преимущественно транзакционный, минимум личного','-1':'Профессиональный контакт без личной составляющей','0':'Профессиональное партнёрство','1':'Есть личный контакт, но в рамках роли','2':'Поддерживающие отношения, личное — часть работы','3':'Глубокий личный контакт — без него работа невозможна' },
+  'Метод': { '-3':'Фиксированный протокол: отклонение от метода — ошибка','-2':'Строгая методология с минимальными вариациями','-1':'Есть структура, небольшая гибкость','0':'Структура есть, но с вариантами под ситуацию','1':'Метод гибкий, адаптируется под контекст','2':'Преимущественно индивидуальная настройка','3':'Метод полностью подбирается под конкретного человека' },
+  'Ответственность': { '-3':'Помогатор берёт ответственность за итог на себя','-2':'Помогатор несёт основную ответственность','-1':'Ответственность больше у помогатора','0':'Разделённая ответственность','1':'Ответственность больше у подопечного','2':'Помогатор создаёт условия, решение и результат — у подопечного','3':'Ответственность полностью у подопечного' },
+  'Длительность': { '-3':'Разовый контакт: сессия, встреча, оценка','-2':'Несколько встреч в рамках одной задачи','-1':'Краткосрочный проект с фиксированным финалом','0':'Проектный формат: ограниченный срок','1':'Регулярные встречи в рамках программы','2':'Систематическое взаимодействие, длительные отношения','3':'Постоянные регулярные встречи без фиксированного конца' },
+};
+
+function getColor(val) {
+  if (val === null || val === '') return null;
+  const v = parseFloat(val);
+  if (isNaN(v)) return null;
+  if (v >= 2.5)  return { bg: '#1A6B47', fg: '#fff' };
+  if (v >= 1.5)  return { bg: '#4A9E72', fg: '#fff' };
+  if (v >= 0.5)  return { bg: '#9FD4B5', fg: '#2C1A0E' };
+  if (v >= -0.5) return { bg: '#EDE8DA', fg: '#8C6D4F' };
+  if (v >= -1.5) return { bg: '#D4A574', fg: '#2C1A0E' };
+  if (v >= -2.5) return { bg: '#B8693A', fg: '#fff' };
+  return { bg: '#8B3A1A', fg: '#fff' };
+}
+
+function parseCSV(text) {
+  const lines = text.trim().split('\n');
+  return lines.map(line => {
+    const cols = []; let cur = ''; let inQ = false;
+    for (const ch of line) {
+      if (ch === '"') { inQ = !inQ; continue; }
+      if (ch === ',' && !inQ) { cols.push(cur.trim()); cur = ''; }
+      else cur += ch;
+    }
+    cols.push(cur.trim());
+    return cols;
+  });
+}
+
+let selectedCell = null;
+
+function buildGrid(rows) {
+  const grid = document.getElementById('grid');
+  const axisRow = document.getElementById('axis-row');
+  grid.innerHTML = ''; axisRow.innerHTML = '';
+
+  const corner = document.createElement('div');
+  grid.appendChild(corner);
+
+  CRITERIA.forEach((c, ci) => {
+    const h = document.createElement('div');
+    h.className = 'col-header';
+    h.id = `hdr-${ci}`;
+    h.innerHTML = `${c.short}<span class="axis-hint">${c.axis}</span>`;
+    h.addEventListener('click', () => {
+      document.querySelectorAll('.col-header').forEach(x => x.classList.remove('active'));
+      h.classList.add('active');
+    });
+    grid.appendChild(h);
+  });
+
+  const skipPrefixes = ['Легенда', 'Стартовые', 'Источник', 'Формула', 'Таблица', 'Biz Helper'];
+  const dataRows = rows.slice(1).filter(r =>
+    r[0] && r[0].trim() !== '' && !skipPrefixes.some(p => r[0].startsWith(p))
+  );
+
+  dataRows.forEach(row => {
+    const role = row[0]; if (!role) return;
+
+    const rc = document.createElement('div');
+    rc.className = 'role-cell';
+    rc.textContent = role;
+    grid.appendChild(rc);
+
+    CRITERIA.forEach((c, ci) => {
+      const raw = row[ci + 1];
+      const val = (raw !== undefined && raw !== '') ? parseFloat(raw) : null;
+      const color = getColor(val);
+
+      const cell = document.createElement('div');
+      cell.className = 'val-cell' + (val === null ? ' empty' : '');
+      if (color) { cell.style.background = color.bg; cell.style.color = color.fg; }
+      cell.textContent = val !== null ? (val > 0 ? '+' + val.toFixed(2) : val.toFixed(2)) : '—';
+
+      cell.addEventListener('click', () => {
+        if (selectedCell) selectedCell.classList.remove('selected');
+        cell.classList.add('selected');
+        selectedCell = cell;
+
+        const key = val !== null ? String(Math.round(val)) : null;
+        const label = key && LABELS[c.short] ? (LABELS[c.short][key] || '') : '';
+        const sign = val > 0 ? '+' : '';
+
+        document.getElementById('tooltip').innerHTML = `
+          <div class="tip-label">${role} · ${c.short} · ${val !== null ? sign + val.toFixed(2) : '—'}</div>
+          <div class="tip-body">${label || 'Нет расшифровки для этого значения'}</div>
+        `;
+        document.querySelectorAll('.col-header').forEach(x => x.classList.remove('active'));
+        const hdr = document.getElementById(`hdr-${ci}`);
+        if (hdr) hdr.classList.add('active');
+      });
+
+      grid.appendChild(cell);
+    });
+  });
+
+  axisRow.appendChild(document.createElement('div'));
+  CRITERIA.forEach(c => {
+    const al = document.createElement('div');
+    al.className = 'axis-label';
+    al.textContent = c.axis;
+    axisRow.appendChild(al);
+  });
+
+  document.getElementById('resp-count').textContent = `Ролей в карте: ${dataRows.length}`;
+  document.getElementById('status-text').textContent = `Данные загружены · ${dataRows.length} ролей · взвешенное среднее`;
+}
+
+async function loadData() {
+  try {
+    const res = await fetch(CSV_URL);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    buildGrid(parseCSV(await res.text()));
+  } catch(e) {
+    document.getElementById('status-text').textContent = 'Ошибка загрузки. Проверьте публикацию таблицы.';
+  }
+}
+
+loadData();
+setInterval(loadData, 300000);
+</script>
+</body>
+</html>
