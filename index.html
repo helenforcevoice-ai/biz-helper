@@ -69,7 +69,7 @@ body { font-family: 'PT Sans', Georgia, serif; background: var(--c-bg); color: v
   max-width: 1100px; margin: 0 auto 1.5rem;
   background: var(--c-dark); border: 1.5px solid var(--c-gold);
   border-radius: var(--radius-lg);
-  padding: 1.5rem 2rem;
+  padding: 1.75rem 2rem;
   display: flex; align-items: center; justify-content: space-between; gap: 2rem;
   position: relative; overflow: hidden; box-shadow: var(--shadow-lg);
 }
@@ -79,19 +79,54 @@ body { font-family: 'PT Sans', Georgia, serif; background: var(--c-bg); color: v
   pointer-events: none;
 }
 
-.header-left { display: flex; flex-direction: column; gap: 5px; min-width: 0; flex: 1; }
-.eyebrow { font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--c-gold); }
-.header-title { font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 700; color: var(--c-bg-card); line-height: 1.05; white-space: nowrap; }
-.header-title em { font-style: normal; color: var(--c-gold); }
-.header-subtitle { font-size: clamp(0.78rem, 1.5vw, 0.88rem); color: var(--c-gold-light); line-height: 1.5; }
+.header-left { display: flex; flex-direction: column; gap: 6px; min-width: 0; flex: 1; }
 
-.header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; flex-shrink: 0; }
-.roles-count { font-size: 0.72rem; color: var(--c-gold-light); }
+.eyebrow {
+  font-size: 0.62rem; letter-spacing: 0.25em;
+  text-transform: uppercase; color: var(--c-gold);
+  opacity: 0.8;
+}
+
+.header-title {
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  font-weight: 700; color: var(--c-bg-card);
+  line-height: 1.05; white-space: nowrap;
+}
+.header-title em { font-style: normal; color: var(--c-gold); }
+
+.header-desc {
+  display: flex; flex-direction: column; gap: 1px;
+  margin-top: 2px;
+}
+
+.header-desc-line1 {
+  font-size: clamp(0.8rem, 1.6vw, 0.9rem);
+  color: var(--c-gold-light);
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+}
+
+.header-desc-line2 {
+  font-size: clamp(0.7rem, 1.3vw, 0.78rem);
+  color: var(--c-gold);
+  line-height: 1.4;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+.header-right {
+  display: flex; flex-direction: column;
+  align-items: flex-end; gap: 10px; flex-shrink: 0;
+}
+
 .header-btns { display: flex; gap: 6px; }
+
 .hbtn {
   background: transparent; color: #F5F0E4;
   border: 1px solid rgba(245,240,228,0.3); border-radius: var(--radius-sm);
-  padding: 5px 13px; font-size: 0.72rem; font-family: 'PT Sans', Georgia, sans-serif;
+  padding: 5px 13px; font-size: 0.72rem;
+  font-family: 'PT Sans', Georgia, sans-serif;
   cursor: pointer; white-space: nowrap; letter-spacing: 0.03em;
   text-decoration: none; display: inline-flex; align-items: center;
   transition: border-color 0.15s, background 0.15s;
@@ -101,8 +136,15 @@ body { font-family: 'PT Sans', Georgia, serif; background: var(--c-bg); color: v
 .hbtn.hbtn-gold:hover { background: rgba(184,147,58,0.12); }
 
 /* ── STATUS ── */
-#status { max-width: 1100px; margin: 0 auto 0.75rem; font-size: 0.78rem; color: var(--c-brown-hint); display: flex; align-items: center; gap: 0.5rem; }
-.dot { width: 7px; height: 7px; border-radius: 50%; background: var(--c-gold); animation: pulse 2.2s infinite; flex-shrink: 0; }
+#status {
+  max-width: 1100px; margin: 0 auto 0.75rem;
+  font-size: 0.78rem; color: var(--c-brown-hint);
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--c-gold); animation: pulse 2.2s infinite; flex-shrink: 0;
+}
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.25} }
 
 /* ── MAP ── */
@@ -114,7 +156,6 @@ body { font-family: 'PT Sans', Georgia, serif; background: var(--c-bg); color: v
   gap: 3px; min-width: 980px;
 }
 
-/* corner */
 .corner-cell {
   background: var(--c-dark); border-radius: var(--radius-md);
   padding: 0 0.7rem;
@@ -125,10 +166,9 @@ body { font-family: 'PT Sans', Georgia, serif; background: var(--c-bg); color: v
 .corner-cell:hover, .corner-cell.sort-asc, .corner-cell.sort-desc { background: #3D2410; }
 .corner-line1 { font-size: 0.68rem; color: var(--c-gold); letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; line-height: 1.3; min-height: 1.1em; }
 .corner-line2 { font-size: 0.68rem; color: var(--c-gold); letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; line-height: 1.3; display: flex; align-items: center; justify-content: space-between; }
-.sort-arrow { font-size: 0.65rem; color: var(--c-gold-mid); margin-left: 4px; flex-shrink: 0; transition: color 0.15s; }
-.corner-cell.sort-asc  .sort-arrow, .corner-cell.sort-desc  .sort-arrow { color: var(--c-gold); }
+.sort-arrow { font-size: 0.65rem; color: var(--c-gold-mid); margin-left: 4px; flex-shrink: 0; }
+.corner-cell.sort-asc .sort-arrow, .corner-cell.sort-desc .sort-arrow { color: var(--c-gold); }
 
-/* col headers — всегда две строки */
 .col-header {
   background: var(--c-dark); border-radius: var(--radius-md);
   padding: 0.45rem 0.4rem;
@@ -137,59 +177,34 @@ body { font-family: 'PT Sans', Georgia, serif; background: var(--c-bg); color: v
   min-height: 52px;
 }
 .col-header:hover, .col-header.active { background: #3D2410; }
-
-.col-line1 {
-  font-size: 0.74rem; font-weight: 700; color: var(--c-gold-light);
-  line-height: 1.25; text-align: center; min-height: 1.1em;
-}
+.col-line1 { font-size: 0.74rem; font-weight: 700; color: var(--c-gold-light); line-height: 1.25; text-align: center; min-height: 1.1em; }
 .col-header.active .col-line1 { color: var(--c-gold); }
-
-.col-line2 {
-  font-size: 0.74rem; font-weight: 700; color: var(--c-gold-light);
-  line-height: 1.25; text-align: center;
-  display: flex; align-items: center; justify-content: center; gap: 3px;
-}
+.col-line2 { font-size: 0.74rem; font-weight: 700; color: var(--c-gold-light); line-height: 1.25; text-align: center; display: flex; align-items: center; justify-content: center; gap: 3px; }
 .col-header.active .col-line2 { color: var(--c-gold); }
+.col-arrow { font-size: 0.62rem; color: var(--c-gold-mid); flex-shrink: 0; }
+.col-header.sort-asc .col-arrow, .col-header.sort-desc .col-arrow { color: var(--c-gold); }
 
-.col-arrow { font-size: 0.62rem; color: var(--c-gold-mid); flex-shrink: 0; transition: color 0.15s; }
-.col-header.sort-asc  .col-arrow,
-.col-header.sort-desc .col-arrow { color: var(--c-gold); }
-
-/* role cells — цвет как нулевые ячейки */
 .role-cell {
-  background: var(--c-bg-neutral);
-  border-radius: var(--radius-md);
-  padding: 0 0.7rem;
-  font-size: 0.86rem; font-weight: 700;
-  color: var(--c-dark);
+  background: var(--c-bg-neutral); border-radius: var(--radius-md);
+  padding: 0 0.7rem; font-size: 0.86rem; font-weight: 700; color: var(--c-dark);
   font-family: 'PT Sans', Georgia, sans-serif;
-  display: flex; align-items: center;
-  min-height: 38px;
+  display: flex; align-items: center; min-height: 38px;
   box-shadow: 0 1px 3px rgba(44,26,14,0.06);
 }
 
-/* value cells — компактнее */
 .val-cell {
   border-radius: var(--radius-md);
   display: flex; align-items: center; justify-content: center;
   min-height: 38px; cursor: pointer;
   transition: filter 0.12s, transform 0.1s;
-  position: relative;
-  box-shadow: 0 1px 3px rgba(44,26,14,0.08);
+  position: relative; box-shadow: 0 1px 3px rgba(44,26,14,0.08);
 }
 .val-cell:hover { filter: brightness(1.1); transform: scale(1.06); z-index: 2; }
 .val-cell.selected { outline: 2.5px solid var(--c-dark); outline-offset: -2px; z-index: 3; }
-
-.val-num {
-  font-family: Georgia, serif;
-  font-size: 0.88rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-}
+.val-num { font-family: Georgia, serif; font-size: 0.88rem; font-weight: 700; letter-spacing: -0.01em; }
 .val-cell.empty { background: var(--c-bg-neutral) !important; box-shadow: none; }
 .val-cell.empty .val-num { font-size: 0.68rem; color: var(--c-brown-hint); font-family: 'PT Sans', sans-serif; }
 
-/* axis row */
 .axis-row {
   display: grid;
   grid-template-columns: 148px repeat(9, minmax(90px, 1fr));
@@ -226,10 +241,9 @@ body { font-family: 'PT Sans', Georgia, serif; background: var(--c-bg); color: v
 .legend-header {
   background: var(--c-dark); border: 1.5px solid var(--c-gold);
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-  padding: 0.85rem 1.5rem; display: flex; align-items: center; justify-content: space-between;
+  padding: 0.85rem 1.5rem;
 }
 .legend-header h2 { font-size: 0.95rem; font-weight: 700; color: var(--c-gold-light); }
-.legend-header span { font-size: 0.7rem; color: var(--c-brown-hint); font-style: italic; }
 .legend-body {
   background: var(--c-bg-card); border: 1px solid var(--c-border);
   border-top: none; border-radius: 0 0 var(--radius-lg) var(--radius-lg);
@@ -249,11 +263,21 @@ body { font-family: 'PT Sans', Georgia, serif; background: var(--c-bg); color: v
 .lv-neg1{color:#9A5A2A} .lv-neg2{color:#B8693A} .lv-neg3{color:#8B3A1A}
 
 /* ── FOOTER ── */
-footer { max-width: 1100px; margin: 2.5rem auto 0; border-top: 1px solid var(--c-border); padding-top: 1.25rem; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; }
-footer p { font-size: 0.72rem; color: var(--c-brown-hint); line-height: 1.7; }
-footer a { color: var(--c-gold); text-decoration: none; }
-footer a:hover { color: var(--c-brown); text-decoration: underline; }
-.footer-copy { font-size: 0.68rem; color: var(--c-brown-hint); margin-top: 0.5rem; opacity: 0.8; }
+footer {
+  max-width: 1100px; margin: 2.5rem auto 0;
+  border-top: 1px solid var(--c-border); padding-top: 1.1rem;
+  display: flex; justify-content: space-between;
+  align-items: flex-start; flex-wrap: wrap; gap: 0.75rem;
+}
+.footer-col { display: flex; flex-direction: column; gap: 0; }
+.footer-line {
+  font-size: 0.72rem; color: var(--c-brown-hint);
+  line-height: 1; padding: 0.18rem 0;
+}
+.footer-line a { color: var(--c-gold); text-decoration: none; }
+.footer-line a:hover { color: var(--c-brown); text-decoration: underline; }
+.footer-name { font-size: 0.78rem; font-weight: 700; color: var(--c-brown); line-height: 1; padding: 0 0 0.2rem; }
+.footer-dim { font-size: 0.65rem; color: var(--c-brown-hint); opacity: 0.65; line-height: 1; padding: 0.35rem 0 0; }
 </style>
 </head>
 <body>
@@ -272,10 +296,12 @@ footer a:hover { color: var(--c-brown); text-decoration: underline; }
   <div class="header-left">
     <div class="eyebrow">Краудсорсинговое исследование</div>
     <div class="header-title">Biz Helper <em>CrowdMap</em></div>
-    <div class="header-subtitle">Сравнительная карта 12 ролей помогаторов предпринимательских проектов по 9 критериям — данные обновляются в реальном времени</div>
+    <div class="header-desc">
+      <span class="header-desc-line1">Роли помогаторов и их характеристики</span>
+      <span class="header-desc-line2">Данные обновляются в реальном времени</span>
+    </div>
   </div>
   <div class="header-right">
-    <span class="roles-count" id="roles-count">12 ролей · взвешенное среднее</span>
     <div class="header-btns">
       <a href="#legend" class="hbtn">Легенда</a>
       <a href="https://forms.gle/SwmzpnnQrX2wQDpg9" target="_blank" class="hbtn hbtn-gold">Участвовать</a>
@@ -285,7 +311,7 @@ footer a:hover { color: var(--c-brown); text-decoration: underline; }
 
 <div id="status">
   <span class="dot"></span>
-  <span id="status-text">Загружаем актуальные данные</span>
+  <span id="status-text">Загружаем данные</span>
 </div>
 
 <div class="map-outer">
@@ -311,7 +337,6 @@ footer a:hover { color: var(--c-brown); text-decoration: underline; }
 <section id="legend">
   <div class="legend-header">
     <h2>Легенда критериев</h2>
-    <span>9 осей оценки — расшифровка каждого значения</span>
   </div>
   <div class="legend-body">
     <div class="legend-grid" id="legend-grid"></div>
@@ -319,37 +344,30 @@ footer a:hover { color: var(--c-brown); text-decoration: underline; }
 </section>
 
 <footer>
-  <div>
-    <p>Biz Helper CrowdMap — краудсорсинговый проект Елены Безгласной</p>
-    <p>Канал «Без шума»: <a href="https://t.me/bezshuma_channel" target="_blank">t.me/bezshuma_channel</a></p>
-    <p>Контакт: <a href="https://t.me/Elena_Bezglasnaia" target="_blank">@Elena_Bezglasnaia</a></p>
-    <p>Участвовать: <a href="https://forms.gle/SwmzpnnQrX2wQDpg9" target="_blank">ссылка на анкету</a></p>
-    <p class="footer-copy">© 2026 ИП Безгласная Елена Алексеевна · ИНН 631503578469</p>
+  <div class="footer-col">
+    <div class="footer-name">© 2026 Елена Безгласная</div>
+    <div class="footer-line"><a href="https://t.me/bezshuma_channel" target="_blank">t.me/bezshuma_channel</a> · <a href="https://t.me/Elena_Bezglasnaia" target="_blank">@Elena_Bezglasnaia</a></div>
+    <div class="footer-line"><a href="https://forms.gle/SwmzpnnQrX2wQDpg9" target="_blank">Участвовать в исследовании</a></div>
+    <div class="footer-dim">ИП Безгласная Елена Алексеевна · ИНН 631503578469 · <a href="https://tracker63.tilda.ws/privacy" target="_blank" style="color:inherit;opacity:0.8">Политика данных</a></div>
   </div>
-  <div>
-    <p>Методология: взвешенное среднее по модели Дрейфуса<br>
-    Dreyfus &amp; Dreyfus, <em>Mind over Machine</em>, 1986</p>
-    <p style="margin-top:0.5rem">Код виджета: <a href="https://opensource.org/licenses/MIT" target="_blank">MIT License</a><br>
-    Данные исследования: <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0</a> — используйте со ссылкой на автора</p>
-    <p style="margin-top:0.5rem">Данные: Google Sheets · автообновление каждые 5 минут</p>
-    <p style="margin-top:0.5rem"><a href="https://tracker63.tilda.ws/privacy" target="_blank">Политика обработки персональных данных</a></p>
+  <div class="footer-col" style="align-items:flex-end">
+    <div class="footer-line"><a href="https://opensource.org/licenses/MIT" target="_blank">MIT License</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0</a></div>
   </div>
 </footer>
 
 <script>
 const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQmmMJImFfGArpgXPXDx8HDVjgLNzPeUsuzFfxQtwmnyoOUW2hUkBALTZF1kTmJ-wf9EySuB3CsKduu/pub?gid=1755453408&single=true&output=csv';
 
-// Каждый критерий: line1 = первая строка заголовка, line2 = вторая строка
 const CRITERIA = [
-  { line1: 'Объект',        line2: 'работы',        short: 'Объект работы',      axis: '−бизнес / +человек' },
-  { line1: 'Направление',   line2: 'знания',         short: 'Направление знания', axis: '−передаёт / +извлекает' },
-  { line1: '',              line2: 'Инициатива',     short: 'Инициатива',         axis: '−помогатор / +подопечный' },
-  { line1: '',              line2: 'Дистанция',      short: 'Дистанция',          axis: '−наблюдатель / +участник' },
-  { line1: '',              line2: 'Горизонт',       short: 'Горизонт',           axis: '−стратегия / +операция' },
-  { line1: '',              line2: 'Отношения',      short: 'Отношения',          axis: '−транзакция / +поддержка' },
-  { line1: '',              line2: 'Метод',          short: 'Метод',              axis: '−протокол / +адаптация' },
-  { line1: 'Ответствен-',  line2: 'ность',          short: 'Ответственность',    axis: '−помогатор / +подопечный' },
-  { line1: '',              line2: 'Длительность',   short: 'Длительность',       axis: '−разово / +систематически' },
+  { line1: 'Объект',       line2: 'работы',      short: 'Объект работы',      axis: '−бизнес / +человек' },
+  { line1: 'Направление',  line2: 'знания',       short: 'Направление знания', axis: '−передаёт / +извлекает' },
+  { line1: '',             line2: 'Инициатива',   short: 'Инициатива',         axis: '−помогатор / +подопечный' },
+  { line1: '',             line2: 'Дистанция',    short: 'Дистанция',          axis: '−наблюдатель / +участник' },
+  { line1: '',             line2: 'Горизонт',     short: 'Горизонт',           axis: '−стратегия / +операция' },
+  { line1: '',             line2: 'Отношения',    short: 'Отношения',          axis: '−транзакция / +поддержка' },
+  { line1: '',             line2: 'Метод',        short: 'Метод',              axis: '−протокол / +адаптация' },
+  { line1: 'Ответствен-', line2: 'ность',        short: 'Ответственность',    axis: '−помогатор / +подопечный' },
+  { line1: '',             line2: 'Длительность', short: 'Длительность',       axis: '−разово / +систематически' },
 ];
 
 const LABELS = {
@@ -407,7 +425,7 @@ function parseCSV(text) {
 const SKIP = ['Легенда','Стартовые','Источник','Формула','Таблица','Biz Helper'];
 let selectedCell = null;
 let rawData = [];
-let sortCol = null; // null=исходный, -1=роль, 0..8=критерий
+let sortCol = null;
 let sortDir = null;
 
 function getSorted() {
@@ -426,27 +444,22 @@ function getSorted() {
   });
 }
 
-function arrowChar(el, col) {
-  const isActive = sortCol === col;
-  if (!isActive) return '↕';
+function arrowChar(col) {
+  if (sortCol !== col) return '↕';
   return sortDir === 'asc' ? '↑' : '↓';
 }
 
 function updateArrows() {
-  // Corner
   const corner = document.getElementById('corner-cell');
   if (corner) {
-    const arr = corner.querySelector('.sort-arrow');
-    if (arr) arr.textContent = arrowChar(corner, -1);
+    corner.querySelector('.sort-arrow').textContent = arrowChar(-1);
     corner.classList.toggle('sort-asc',  sortCol === -1 && sortDir === 'asc');
     corner.classList.toggle('sort-desc', sortCol === -1 && sortDir === 'desc');
   }
-  // Col headers
   CRITERIA.forEach((_, ci) => {
     const h = document.getElementById(`hdr-${ci}`);
     if (!h) return;
-    const arr = h.querySelector('.col-arrow');
-    if (arr) arr.textContent = arrowChar(h, ci);
+    h.querySelector('.col-arrow').textContent = arrowChar(ci);
     h.classList.toggle('active',    sortCol === ci);
     h.classList.toggle('sort-asc',  sortCol === ci && sortDir === 'asc');
     h.classList.toggle('sort-desc', sortCol === ci && sortDir === 'desc');
@@ -457,7 +470,7 @@ function renderRows() {
   const grid = document.getElementById('grid');
   while (grid.children.length > 10) grid.removeChild(grid.lastChild);
 
-  getSorted().forEach((row) => {
+  getSorted().forEach(row => {
     const rc = document.createElement('div');
     rc.className = 'role-cell';
     rc.textContent = row.role;
@@ -467,7 +480,6 @@ function renderRows() {
       const val = row.vals[ci];
       const cell = document.createElement('div');
       cell.className = 'val-cell' + (val === null ? ' empty' : '');
-
       const num = document.createElement('span');
       num.className = 'val-num';
       if (val !== null) {
@@ -477,7 +489,6 @@ function renderRows() {
         num.textContent = fmtVal(val);
       } else { num.textContent = '—'; }
       cell.appendChild(num);
-
       cell.addEventListener('click', () => {
         if (selectedCell) selectedCell.classList.remove('selected');
         cell.classList.add('selected'); selectedCell = cell;
@@ -494,30 +505,25 @@ function buildGrid(rows) {
   const grid = document.getElementById('grid');
   grid.innerHTML = '';
 
-  // Corner
   const corner = document.createElement('div');
   corner.className = 'corner-cell'; corner.id = 'corner-cell';
   corner.innerHTML = `<div class="corner-line1"></div><div class="corner-line2">РОЛЬ <span class="sort-arrow">↕</span></div>`;
   corner.title = 'Сортировать по алфавиту';
   corner.addEventListener('click', () => {
-    if (sortCol === -1 && sortDir === 'asc') { sortDir = 'desc'; }
+    if (sortCol === -1 && sortDir === 'asc') sortDir = 'desc';
     else if (sortCol === -1 && sortDir === 'desc') { sortCol = null; sortDir = null; }
     else { sortCol = -1; sortDir = 'asc'; }
     updateArrows(); renderRows();
   });
   grid.appendChild(corner);
 
-  // Col headers — две строки, стрелка всегда в line2
   CRITERIA.forEach((c, ci) => {
     const h = document.createElement('div');
     h.className = 'col-header'; h.id = `hdr-${ci}`;
     h.title = `Сортировать по «${c.short}»`;
-    h.innerHTML = `
-      <div class="col-line1">${c.line1}</div>
-      <div class="col-line2"><span>${c.line2}</span><span class="col-arrow">↕</span></div>
-    `;
+    h.innerHTML = `<div class="col-line1">${c.line1}</div><div class="col-line2"><span>${c.line2}</span><span class="col-arrow">↕</span></div>`;
     h.addEventListener('click', () => {
-      if (sortCol === ci && sortDir === 'desc') { sortDir = 'asc'; }
+      if (sortCol === ci && sortDir === 'desc') sortDir = 'asc';
       else if (sortCol === ci && sortDir === 'asc') { sortCol = null; sortDir = null; }
       else { sortCol = ci; sortDir = 'desc'; }
       updateArrows(); renderRows();
@@ -525,7 +531,6 @@ function buildGrid(rows) {
     grid.appendChild(h);
   });
 
-  // Axis row
   const axisRow = document.getElementById('axis-row');
   axisRow.innerHTML = '';
   axisRow.appendChild(document.createElement('div'));
@@ -547,8 +552,7 @@ function buildGrid(rows) {
     }));
 
   renderRows();
-  document.getElementById('roles-count').textContent = `${rawData.length} ролей · взвешенное среднее`;
-  document.getElementById('status-text').textContent = `Данные загружены · ${rawData.length} ролей · взвешенное среднее`;
+  document.getElementById('status-text').textContent = `Данные загружены`;
 }
 
 function buildLegend() {
