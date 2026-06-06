@@ -241,7 +241,7 @@ body {
   grid-template-columns: 108px repeat(9, 1fr);
   gap: 3px; padding: var(--sp-1) 0 4px;
 }
-.axis-label { font-size: var(--text-sm); color: var(--c-text-muted); text-align: center; padding: 0 3px; line-height: 1.3; }
+.axis-label { font-size: 0.65rem; color: var(--c-text-muted); text-align: center; padding: 0 2px; line-height: 1.25; }
 
 /* ── TOOLTIP ── */
 #tooltip {
@@ -447,7 +447,7 @@ footer {
 @media (max-width: 600px) {
   body { padding: var(--sp-2) var(--sp-1) 5rem; }
   .site-header { padding: var(--sp-2); flex-direction: column; gap: var(--sp-1); }
-  .header-right { flex-direction: row; align-items: center; justify-content: space-between; width: 100%; }
+  .header-right { display: none; }
   .header-eyebrow { display: none; }
   .header-channel { text-align: left; }
 }
