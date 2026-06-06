@@ -334,15 +334,11 @@ function buildHeaders() {
   grid.appendChild(corner);
 
   CRITERIA.forEach((c, ci) => {
-    const words = c.short.split(' ');
-    const line1 = words.length > 1 ? words.slice(0, -1).join(' ') : '';
-    const line2 = words[words.length - 1];
     const h = document.createElement('div');
     h.className = 'col-header';
     h.id = `hdr-${ci}`;
     h.title = `Сортировать по «${c.short}»`;
-    h.innerHTML = `<div class="col-line1">${line1}</div>
-      <div class="col-line2"><span>${line2}</span><span class="col-arrow">↕</span></div>`;
+    h.innerHTML = `<div class="col-line2"><span>${c.short}</span><span class="col-arrow">↕</span></div>`;
     h.addEventListener('click', () => {
       if (sortCol === ci && sortDir === 'desc')     setSortState(ci, 'asc');
       else if (sortCol === ci && sortDir === 'asc') setSortState(null, null);
