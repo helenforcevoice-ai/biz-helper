@@ -189,10 +189,8 @@ function updateSelectionUI() {
       <span class="cp-label">Сравниваем: ${selectedRoles.map(r => `<b>${r}</b>`).join(' · ')}</span>
       <button class="cp-btn cp-btn-gold" onclick="openComparison()">Сравнить</button>
       <button class="cp-btn" onclick="resetSelection()">Сбросить</button>`;
-    panel.classList.add('active');
-  } else {
-    panel.classList.remove('active');
   }
+  panel.classList.toggle('active', selectedRoles.length >= 2);
 }
 
 function resetSelection() {
