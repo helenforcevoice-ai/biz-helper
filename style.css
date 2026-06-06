@@ -32,7 +32,7 @@
   --shadow-lg: 0 4px 32px rgba(44,26,14,0.13);
 
   /* Типографика — три уровня */
-  --text-sm:   0.8rem;
+  --text-sm:   0.72rem;
   --text-base: 0.95rem;
   --text-xl:   clamp(1.6rem, 2.5vw, 2.2rem);
 
@@ -152,7 +152,7 @@ body {
 .map-outer { max-width: 1100px; margin: 0 auto; overflow-x: auto; -webkit-overflow-scrolling: touch; contain: paint; }
 .map-grid {
   display: grid;
-  grid-template-columns: 108px repeat(9, 1fr);
+  grid-template-columns: 108px repeat(9, minmax(60px, 1fr));
   gap: 3px;
 }
 
@@ -226,7 +226,7 @@ body {
 /* Value cells */
 .val-cell {
   border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center;
-  min-height: var(--row-height); cursor: pointer; transition: filter 0.12s, transform 0.1s;
+  min-height: var(--row-height); cursor: pointer; transition: filter 0.12s, transform 0.1s; padding: 0 2px;
 }
 .val-cell:hover { filter: brightness(1.08); transform: scale(1.05); z-index: 2; }
 .val-cell:focus-visible { outline: 2px solid var(--c-dark); outline-offset: 1px; }
@@ -238,7 +238,7 @@ body {
 /* Axis row */
 .axis-row {
   display: grid;
-  grid-template-columns: 108px repeat(9, 1fr);
+  grid-template-columns: 108px repeat(9, minmax(60px, 1fr));
   gap: 3px; padding: var(--sp-1) 0 4px;
 }
 .axis-label { font-size: 0.65rem; color: var(--c-text-muted); text-align: center; padding: 0 2px; line-height: 1.25; }
