@@ -12,7 +12,6 @@
 </head>
 <body>
 
-<!-- Подсказка для мобильных -->
 <div class="mobile-hint" id="mobileHint">
   <p><strong>Biz Helper CrowdMap</strong><br>
   Карта лучше читается на большом экране — откройте на ноутбуке или планшете<br><br>
@@ -23,17 +22,19 @@
 <a href="#top" id="back-top" title="Наверх">↑</a>
 <div id="top"></div>
 
-<!-- Шапка -->
 <header class="site-header">
   <div class="header-left">
-    <div class="eyebrow">Краудсорсинговое исследование</div>
     <div class="header-title">Biz Helper <em>CrowdMap</em></div>
     <div class="header-desc">
       <span class="header-desc-line1">Роли помогаторов и их характеристики</span>
       <span class="header-desc-line2">Данные обновляются в реальном времени</span>
     </div>
+    <div class="header-channel">
+      Больше материалов — в канале <a href="https://t.me/bezshuma_channel" target="_blank">«Без шума»</a>
+    </div>
   </div>
   <div class="header-right">
+    <div class="header-eyebrow">Краудсорсинговое исследование</div>
     <div class="header-btns">
       <a href="#legend" class="hbtn">Легенда</a>
       <a href="https://forms.gle/SwmzpnnQrX2wQDpg9" target="_blank" class="hbtn hbtn-gold">Участвовать</a>
@@ -41,24 +42,20 @@
   </div>
 </header>
 
-<!-- Статус загрузки -->
 <div id="status">
   <span class="dot"></span>
   <span id="status-text">Загружаем данные</span>
 </div>
 
-<!-- Тепловая карта -->
 <div class="map-outer">
   <div class="map-grid" id="grid"></div>
   <div class="axis-row" id="axis-row"></div>
 </div>
 
-<!-- Подсказка при клике на ячейку -->
 <div id="tooltip">
-  <div class="tip-hint">Нажмите на любую ячейку — увидите расшифровку значения</div>
+  <div class="tip-hint">Нажмите на ячейку — расшифровка значения · нажмите на название роли — карточка · ○ — выбрать для сравнения</div>
 </div>
 
-<!-- Шкала -->
 <div class="scale-strip">
   <span class="scale-label">Шкала:</span>
   <div class="scale-item"><div class="scale-swatch" style="background:#1A6B47"></div>+3 ярко</div>
@@ -70,28 +67,19 @@
   <div class="scale-item"><div class="scale-swatch" style="background:#8B3A1A"></div>−3 ярко</div>
 </div>
 
-<!-- Легенда критериев -->
 <section id="legend">
-  <div class="legend-header">
-    <h2>Легенда критериев</h2>
-  </div>
+  <div class="legend-header"><h2>Легенда критериев</h2></div>
   <div class="legend-body">
     <div class="legend-grid" id="legend-grid"></div>
   </div>
 </section>
 
-<!-- Футер -->
 <footer>
   <div class="footer-col">
     <div class="footer-name">© 2026 Елена Безгласная</div>
-    <div class="footer-line">
-      <a href="https://t.me/bezshuma_channel" target="_blank">t.me/bezshuma_channel</a>
-      · <a href="https://t.me/Elena_Bezglasnaia" target="_blank">@Elena_Bezglasnaia</a>
-    </div>
     <div class="footer-dim">
       ИП Безгласная Елена Алексеевна · ИНН 631503578469
-      · <a href="https://tracker63.tilda.ws/privacy" target="_blank"
-           style="color:inherit;opacity:0.8">Политика данных</a>
+      · <a href="https://tracker63.tilda.ws/privacy" target="_blank" style="color:inherit;opacity:0.8">Политика данных</a>
     </div>
   </div>
   <div class="footer-col" style="align-items:flex-end">
@@ -102,7 +90,12 @@
   </div>
 </footer>
 
-<!-- Данные → Логика (порядок важен) -->
+<!-- Модальное окно (карточка роли и сравнение) -->
+<div id="modal-overlay"></div>
+
+<!-- Плавающая панель сравнения -->
+<div id="compare-panel"></div>
+
 <script src="data.js"></script>
 <script src="app.js"></script>
 

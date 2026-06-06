@@ -1,6 +1,4 @@
 // ─── BIZ HELPER CROWDMAP · APP ────────────────────────────────────────────
-// Логика: парсинг, рендеринг, сортировка, tooltip, автообновление
-// Зависит от data.js (должен быть подключён раньше)
 
 // ── Утилиты ────────────────────────────────────────────────────────────────
 
@@ -29,7 +27,6 @@ function parseCSV(text) {
   });
 }
 
-// Строка — данные если в ней есть хотя бы одно число в столбцах 1–9
 function isDataRow(row) {
   if (!row[0] || !row[0].trim()) return false;
   return row.slice(1, CRITERIA.length + 1).some(v => v !== '' && !isNaN(parseFloat(v)));
@@ -37,10 +34,11 @@ function isDataRow(row) {
 
 // ── Состояние ──────────────────────────────────────────────────────────────
 
-let rawData    = [];   // [{role, vals:[v0..v8]}]
-let sortCol    = null; // null=исходный, -1=роль, 0..8=критерий
-let sortDir    = null; // 'asc' | 'desc'
+let rawData      = [];
+let sortCol      = null;
+let sortDir      = null;
 let selectedCell = null;
+let selectedRoles = [];   // для сравнения
 
 // ── Сортировка ─────────────────────────────────────────────────────────────
 
@@ -97,44 +95,199 @@ function buildTooltip(role, crit, val) {
   const label = r !== 0 ? (LABELS[crit.short] ? LABELS[crit.short][r] : null) : null;
   const isDec = Math.abs(val - r) > 0.05;
   const sign  = r > 0 ? '+' : '';
-
   let html = `<div class="tip-meta">${role} · ${crit.short} · ${fmtVal(val)}</div>`;
-
   if (r === 0) {
     html += `<div class="tip-neutral">Критерий не выражен — роль нейтральна по этому параметру</div>`;
   } else {
-    if (isDec) {
-      html += `<div class="tip-scale-label">Округлено до ${sign}${r} для расшифровки шкалы</div>`;
-    }
+    if (isDec) html += `<div class="tip-scale-label">Округлено до ${sign}${r} для расшифровки шкалы</div>`;
     html += `<div class="tip-body">${label || 'Нет расшифровки'}</div>`;
   }
   return html;
 }
 
-// ── Рендеринг строк данных ─────────────────────────────────────────────────
+// ── Карточка роли ──────────────────────────────────────────────────────────
+
+function openRoleCard(roleName) {
+  const roleData = ROLES[roleName];
+  const rowData  = rawData.find(r => r.role === roleName);
+  if (!roleData || !rowData) return;
+
+  let barsHtml = '';
+  CRITERIA.forEach((c, ci) => {
+    const val = rowData.vals[ci];
+    if (val === null) return;
+    const col     = getColor(val);
+    const r       = roundKey(val);
+    const label   = r !== 0 ? (LABELS[c.short] ? LABELS[c.short][r] : '') : 'Критерий не выражен';
+    const pct     = ((val + 3) / 6) * 100;
+    const sign    = val > 0 ? '+' : '';
+
+    barsHtml += `
+      <div class="card-criterion">
+        <div class="card-crit-header">
+          <span class="card-crit-name">${c.short}</span>
+          <span class="card-crit-val" style="color:${col.bg}">${sign}${val.toFixed(2)}</span>
+        </div>
+        <div class="card-bar-track">
+          <div class="card-bar-fill" style="width:${pct}%;background:${col.bg}"></div>
+          <div class="card-bar-mid"></div>
+        </div>
+        <div class="card-crit-label">${label}</div>
+        <div class="card-crit-axis">${c.axis}</div>
+      </div>`;
+  });
+
+  const overlay = document.getElementById('modal-overlay');
+  overlay.innerHTML = `
+    <div class="modal-card" role="dialog" aria-modal="true">
+      <button class="modal-close" onclick="closeModal()" aria-label="Закрыть">✕</button>
+      <div class="modal-head">
+        <div class="modal-role-name">${roleName}</div>
+        <div class="modal-role-en">${roleData.en}</div>
+        <div class="modal-motto">${roleData.motto}</div>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc">${roleData.desc}</p>
+        <div class="card-criteria">${barsHtml}</div>
+      </div>
+    </div>`;
+
+  overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+// ── Сравнение ──────────────────────────────────────────────────────────────
+
+function toggleRoleSelect(roleName) {
+  const idx = selectedRoles.indexOf(roleName);
+  if (idx === -1) {
+    if (selectedRoles.length >= 4) return;
+    selectedRoles.push(roleName);
+  } else {
+    selectedRoles.splice(idx, 1);
+  }
+  updateSelectionUI();
+}
+
+function updateSelectionUI() {
+  // Обновляем чекбоксы
+  document.querySelectorAll('.role-checkbox').forEach(cb => {
+    const role = cb.dataset.role;
+    cb.classList.toggle('checked', selectedRoles.includes(role));
+    cb.closest('.role-cell-wrap')?.classList.toggle('role-selected', selectedRoles.includes(role));
+  });
+
+  // Плавающая панель
+  const panel = document.getElementById('compare-panel');
+  if (selectedRoles.length >= 2) {
+    panel.innerHTML = `
+      <span class="cp-label">Сравниваем: ${selectedRoles.map(r => `<b>${r}</b>`).join(' · ')}</span>
+      <button class="cp-btn cp-btn-gold" onclick="openComparison()">Сравнить</button>
+      <button class="cp-btn" onclick="resetSelection()">Сбросить</button>`;
+    panel.classList.add('active');
+  } else {
+    panel.classList.remove('active');
+  }
+}
+
+function resetSelection() {
+  selectedRoles = [];
+  updateSelectionUI();
+}
+
+function openComparison() {
+  const roles = selectedRoles.map(name => rawData.find(r => r.role === name)).filter(Boolean);
+  if (roles.length < 2) return;
+
+  // Заголовки столбцов
+  let headHtml = '<tr><th class="cmp-crit-col">Критерий</th>';
+  roles.forEach(r => { headHtml += `<th class="cmp-role-col">${r.role}</th>`; });
+  headHtml += '</tr>';
+
+  // Строки критериев
+  let rowsHtml = '';
+  CRITERIA.forEach((c, ci) => {
+    rowsHtml += `<tr><td class="cmp-crit-name">${c.short}<div class="cmp-axis">${c.axis}</div></td>`;
+    roles.forEach(r => {
+      const val = r.vals[ci];
+      if (val === null) { rowsHtml += `<td class="cmp-cell empty">—</td>`; return; }
+      const col  = getColor(val);
+      const sign = val > 0 ? '+' : '';
+      rowsHtml += `<td class="cmp-cell" style="background:${col.bg};color:${col.fg}">${sign}${val.toFixed(2)}</td>`;
+    });
+    rowsHtml += '</tr>';
+  });
+
+  const overlay = document.getElementById('modal-overlay');
+  overlay.innerHTML = `
+    <div class="modal-card modal-compare" role="dialog" aria-modal="true">
+      <button class="modal-close" onclick="closeModal()" aria-label="Закрыть">✕</button>
+      <div class="modal-head">
+        <div class="modal-role-name">Сравнение ролей</div>
+        <div class="modal-role-en">${roles.map(r => r.role).join(' · ')}</div>
+      </div>
+      <div class="modal-body">
+        <div class="cmp-table-wrap">
+          <table class="cmp-table">
+            <thead>${headHtml}</thead>
+            <tbody>${rowsHtml}</tbody>
+          </table>
+        </div>
+      </div>
+    </div>`;
+
+  overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  const overlay = document.getElementById('modal-overlay');
+  overlay.classList.remove('active');
+  overlay.innerHTML = '';
+  document.body.style.overflow = '';
+}
+
+// ── Рендеринг строк ────────────────────────────────────────────────────────
 
 function renderRows() {
   const grid = document.getElementById('grid');
-
-  // Удаляем только строки данных — заголовки (первые 10 элементов) не трогаем
   while (grid.children.length > CRITERIA.length + 1) grid.removeChild(grid.lastChild);
 
   getSorted().forEach(row => {
-    // Ячейка с названием роли
+    const isSelected = selectedRoles.includes(row.role);
+
+    // Обёртка для ячейки роли (чекбокс + название)
+    const wrap = document.createElement('div');
+    wrap.className = 'role-cell-wrap' + (isSelected ? ' role-selected' : '');
+
+    // Чекбокс
+    const cb = document.createElement('div');
+    cb.className = 'role-checkbox' + (isSelected ? ' checked' : '');
+    cb.dataset.role = row.role;
+    cb.title = 'Выбрать для сравнения';
+    cb.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleRoleSelect(row.role);
+    });
+
+    // Название роли
     const rc = document.createElement('div');
     rc.className = 'role-cell';
     rc.textContent = row.role;
-    grid.appendChild(rc);
+    rc.title = 'Открыть карточку роли';
+    rc.addEventListener('click', () => openRoleCard(row.role));
+
+    wrap.appendChild(cb);
+    wrap.appendChild(rc);
+    grid.appendChild(wrap);
 
     // Ячейки значений
     CRITERIA.forEach((c, ci) => {
       const val  = row.vals[ci];
       const cell = document.createElement('div');
       cell.className = 'val-cell' + (val === null ? ' empty' : '');
-
       const num = document.createElement('span');
       num.className = 'val-num';
-
       if (val !== null) {
         const col = getColor(val);
         cell.style.background = col.bg;
@@ -143,59 +296,50 @@ function renderRows() {
       } else {
         num.textContent = '—';
       }
-
       cell.appendChild(num);
-
       cell.addEventListener('click', () => {
         if (selectedCell) selectedCell.classList.remove('selected');
         cell.classList.add('selected');
         selectedCell = cell;
-
         document.getElementById('tooltip').innerHTML =
           val !== null
             ? buildTooltip(row.role, c, val)
             : `<div class="tip-meta">${row.role} · ${c.short}</div><div class="tip-neutral">Нет данных</div>`;
       });
-
       grid.appendChild(cell);
     });
   });
 }
 
-// ── Построение заголовков и осей ───────────────────────────────────────────
+// ── Заголовки и оси ────────────────────────────────────────────────────────
 
 function buildHeaders() {
   const grid = document.getElementById('grid');
   grid.innerHTML = '';
 
-  // Corner — сортировка по алфавиту
   const corner = document.createElement('div');
   corner.className = 'corner-cell';
   corner.id = 'corner-cell';
   corner.title = 'Сортировать по алфавиту';
   corner.innerHTML = `<div class="corner-line1"></div>
     <div class="corner-line2">РОЛЬ <span class="sort-arrow">↕</span></div>`;
-
   corner.addEventListener('click', () => {
-    if (sortCol === -1 && sortDir === 'asc')        setSortState(-1, 'desc');
-    else if (sortCol === -1 && sortDir === 'desc')  setSortState(null, null);
-    else                                             setSortState(-1, 'asc');
+    if (sortCol === -1 && sortDir === 'asc')       setSortState(-1, 'desc');
+    else if (sortCol === -1 && sortDir === 'desc') setSortState(null, null);
+    else                                            setSortState(-1, 'asc');
   });
   grid.appendChild(corner);
 
-  // Заголовки критериев — две строки, стрелка всегда в нижней
   CRITERIA.forEach((c, ci) => {
     const words = c.short.split(' ');
     const line1 = words.length > 1 ? words.slice(0, -1).join(' ') : '';
     const line2 = words[words.length - 1];
-
     const h = document.createElement('div');
     h.className = 'col-header';
     h.id = `hdr-${ci}`;
     h.title = `Сортировать по «${c.short}»`;
     h.innerHTML = `<div class="col-line1">${line1}</div>
       <div class="col-line2"><span>${line2}</span><span class="col-arrow">↕</span></div>`;
-
     h.addEventListener('click', () => {
       if (sortCol === ci && sortDir === 'desc')     setSortState(ci, 'asc');
       else if (sortCol === ci && sortDir === 'asc') setSortState(null, null);
@@ -204,7 +348,6 @@ function buildHeaders() {
     grid.appendChild(h);
   });
 
-  // Подписи осей под таблицей
   const axisRow = document.getElementById('axis-row');
   axisRow.innerHTML = '';
   axisRow.appendChild(document.createElement('div'));
@@ -216,7 +359,7 @@ function buildHeaders() {
   });
 }
 
-// ── Парсинг данных из CSV ──────────────────────────────────────────────────
+// ── Парсинг ────────────────────────────────────────────────────────────────
 
 function parseData(rows) {
   rawData = rows
@@ -231,20 +374,17 @@ function parseData(rows) {
     }));
 }
 
-// ── Легенда критериев ──────────────────────────────────────────────────────
+// ── Легенда ────────────────────────────────────────────────────────────────
 
 function buildLegend() {
   const container = document.getElementById('legend-grid');
   if (!container) return;
-
   CRITERIA.forEach(c => {
     const card = document.createElement('div');
     card.className = 'legend-crit';
-
     let html = `<div class="legend-crit-name">${c.short}</div>
       <div class="legend-crit-axis">${c.axis}</div>
       <div class="legend-scale">`;
-
     [3, 2, 1, 0, -1, -2, -3].forEach(v => {
       const cls     = VAL_CLASSES[v] || '';
       const label   = v === 0 ? 'Критерий не выражен' : (LABELS[c.short][v] || '');
@@ -255,7 +395,6 @@ function buildLegend() {
         <span class="${descCls}">${label}</span>
       </div>`;
     });
-
     html += '</div>';
     card.innerHTML = html;
     container.appendChild(card);
@@ -279,6 +418,16 @@ async function loadData() {
 }
 
 // ── Инициализация ──────────────────────────────────────────────────────────
+
+// Закрытие модала по клику на overlay
+document.getElementById('modal-overlay').addEventListener('click', (e) => {
+  if (e.target.id === 'modal-overlay') closeModal();
+});
+
+// Закрытие по Escape
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeModal();
+});
 
 window.addEventListener('scroll', () => {
   document.getElementById('back-top')
