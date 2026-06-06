@@ -338,7 +338,9 @@ function buildHeaders() {
     h.className = 'col-header';
     h.id = `hdr-${ci}`;
     h.title = `Сортировать по «${c.short}»`;
-    h.innerHTML = `<div class="col-line2"><span>${c.short}</span><span class="col-arrow">↕</span></div>`;
+    const breaks = {'Объект работы': 'Объект<br>работы', 'Направление знания': 'Направление<br>знания'};
+    const label = breaks[c.short] || c.short;
+    h.innerHTML = `<div class="col-line2"><span>${label} <span class="col-arrow">↕</span></span></div>`;
     h.addEventListener('click', () => {
       if (sortCol === ci && sortDir === 'desc')     setSortState(ci, 'asc');
       else if (sortCol === ci && sortDir === 'asc') setSortState(null, null);
