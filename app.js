@@ -119,8 +119,10 @@ function openRoleCard(roleName) {
     const col     = getColor(val);
     const r       = roundKey(val);
     const label   = r !== 0 ? (LABELS[c.short] ? LABELS[c.short][r] : '') : 'Критерий не выражен';
-    const pct     = ((val + 3) / 6) * 100;
     const sign    = val > 0 ? '+' : '';
+    // Двусторонний бар: растёт от центра влево (отриц.) или вправо (полож.)
+    const halfPct = Math.abs(val) / 3 * 50; // 0–50%
+    const isNeg   = val < 0;
 
     barsHtml += `
       <div class="card-criterion">
@@ -129,8 +131,11 @@ function openRoleCard(roleName) {
           <span class="card-crit-val" style="color:${col.bg}">${sign}${val.toFixed(2)}</span>
         </div>
         <div class="card-bar-track">
-          <div class="card-bar-fill" style="width:${pct}%;background:${col.bg}"></div>
           <div class="card-bar-mid"></div>
+          ${isNeg
+            ? `<div class="card-bar-fill card-bar-neg" style="width:${halfPct}%;background:${col.bg}"></div>`
+            : `<div class="card-bar-fill card-bar-pos" style="width:${halfPct}%;background:${col.bg}"></div>`
+          }
         </div>
         <div class="card-crit-label">${label}</div>
         <div class="card-crit-axis">${c.axis}</div>

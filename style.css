@@ -309,18 +309,27 @@ footer {
 .card-bar-track {
   height: 8px; background: var(--c-bg-neutral);
   border-radius: 4px; position: relative; margin-bottom: 4px;
-  overflow: visible;
-}
-.card-bar-fill {
-  height: 100%; border-radius: 4px;
-  transition: width 0.4s ease;
-  min-width: 4px;
 }
 .card-bar-mid {
   position: absolute; top: -3px; left: 50%;
-  width: 1px; height: 14px;
-  background: var(--c-brown-hint); opacity: 0.4;
+  width: 1.5px; height: 14px;
+  background: var(--c-brown-hint); opacity: 0.5;
   transform: translateX(-50%);
+  z-index: 1;
+}
+/* Положительный бар — от центра вправо */
+.card-bar-pos {
+  position: absolute; top: 0; left: 50%;
+  height: 100%; border-radius: 0 4px 4px 0;
+  transition: width 0.4s ease;
+  min-width: 2px;
+}
+/* Отрицательный бар — от центра влево */
+.card-bar-neg {
+  position: absolute; top: 0; right: 50%;
+  height: 100%; border-radius: 4px 0 0 4px;
+  transition: width 0.4s ease;
+  min-width: 2px;
 }
 
 .card-crit-label { font-size: 0.75rem; color: var(--c-brown); line-height: 1.3; }
