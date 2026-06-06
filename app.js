@@ -325,7 +325,7 @@ function buildHeaders() {
   corner.id = 'corner-cell';
   corner.title = 'Сортировать по алфавиту';
   corner.innerHTML = `<div class="corner-line1"></div>
-    <div class="corner-line2">РОЛЬ <span class="sort-arrow">↕</span></div>`;
+    <div class="corner-line2">Роль <span class="sort-arrow">↕</span></div>`;
   corner.addEventListener('click', () => {
     if (sortCol === -1 && sortDir === 'asc')       setSortState(-1, 'desc');
     else if (sortCol === -1 && sortDir === 'desc') setSortState(null, null);
@@ -413,7 +413,8 @@ async function loadData() {
     const rows = parseCSV(await res.text());
     parseData(rows);
     renderRows();
-    document.getElementById('status-text').textContent = 'Данные загружены';
+    const t = new Date().toLocaleTimeString('ru', {hour:'2-digit', minute:'2-digit'});
+    document.getElementById('status-text').textContent = `Данные обновлены · ${t}`;
   } catch (e) {
     document.getElementById('status-text').textContent =
       'Ошибка загрузки — проверьте публикацию таблицы';
