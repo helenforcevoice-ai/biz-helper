@@ -54,7 +54,6 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { overflow-x: hidden; }
 
 body {
   font-family: 'PT Sans', sans-serif;
@@ -62,7 +61,6 @@ body {
   color: var(--c-text);
   min-height: 100vh;
   padding: var(--sp-3) var(--sp-3) 6rem;
-  overflow-x: hidden;
 }
 
 /* ── MOBILE HINT ── */
@@ -246,14 +244,14 @@ body {
 
 /* ── TOOLTIP ── */
 #tooltip {
-  max-width: 1100px; margin: var(--sp-1) auto 0;
+  max-width: 1100px; margin: var(--sp-1) auto var(--sp-2);
   background: var(--c-bg-field); border: 1px solid var(--c-border);
   border-left: 3px solid var(--c-gold); border-radius: var(--radius-md);
   padding: var(--sp-1) var(--sp-2); min-height: 56px; box-shadow: var(--shadow);
 }
 #tooltip .tip-meta        { font-size: var(--text-sm); font-weight: 700; color: var(--c-text-muted); margin-bottom: 4px; }
 #tooltip .tip-scale-label { font-size: var(--text-sm); color: var(--c-text-muted); margin-bottom: 2px; }
-#tooltip .tip-body        { font-size: var(--text-base); color: var(--c-text); line-height: 1.5; }
+#tooltip .tip-body        { font-size: var(--text-sm); color: var(--c-text); line-height: 1.5; }
 #tooltip .tip-neutral     { font-size: var(--text-base); color: var(--c-text-muted); }
 #tooltip .tip-hint        { font-size: var(--text-sm); color: var(--c-text-dim); }
 
@@ -427,7 +425,7 @@ footer {
 @media print {
   #back-top, #modal-overlay, #compare-panel, .mobile-hint,
   .role-checkbox, .header-btns { display: none !important; }
-  body { padding: 0; background: #fff; color: #1a0e06; }
+  body { padding: 0; background: #fff; color: var(--c-text); }
   .site-header { box-shadow: none; }
   .header-title, .header-sub, .header-channel,
   .header-eyebrow { color: #fff !important; }
@@ -435,9 +433,9 @@ footer {
   .val-cell, .role-cell-wrap, .col-header, .corner-cell { box-shadow: none; }
   .axis-label, .tip-body, .tip-meta,
   .legend-crit-name, .legend-desc,
-  .card-crit-name, .card-crit-label { color: #1a0e06 !important; }
+  .card-crit-name, .card-crit-label { color: var(--c-dark) !important; }
   .legend-crit-axis, .card-crit-axis,
-  .tip-hint, .footer-dim { color: #444 !important; }
+  .tip-hint, .footer-dim { color: var(--c-text-muted) !important; }
 }
 
 /* ── МОБИЛЬНАЯ АДАПТАЦИЯ ── */
