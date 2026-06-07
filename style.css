@@ -448,6 +448,7 @@ footer {
   .site-header { padding: var(--sp-2); flex-direction: column; gap: var(--sp-1); }
   .header-right { display: none; }
   .header-eyebrow { display: none; }
+  .header-sub { display: none; }
   .header-channel { text-align: left; }
 }
 
