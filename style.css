@@ -460,14 +460,6 @@ footer {
 }
 .how-text { font-size: var(--text-sm); color: var(--c-text-muted); margin-top: var(--sp-1); line-height: 1.5; }
 
-/* ── TOOLTIP HINT ── */
-#tooltip-hint {
-  max-width: 1100px; margin: var(--sp-1) auto;
-  background: var(--c-bg-field); border: 1px solid var(--c-border);
-  border-left: 3px solid var(--c-gold); border-radius: var(--radius-md);
-  padding: var(--sp-1) var(--sp-2); box-shadow: var(--shadow);
-}
-
 /* ── CLUSTERING ── */
 .clustering { max-width: 1100px; margin: var(--sp-4) auto 0; }
 .clustering-body { padding: var(--sp-3); }
