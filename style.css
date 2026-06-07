@@ -1,3 +1,4 @@
+/* © 2026 Елена Безгласная · https://t.me/bezshuma_channel · CC BY-NC-ND 4.0 */
 /* ─── BIZ HELPER CROWDMAP · STYLES ───────────────────────────────────────── */
 
 :root {
@@ -450,4 +451,16 @@ footer {
   .header-right { display: none; }
   .header-eyebrow { display: none; }
   .header-channel { text-align: left; }
+}
+
+/* ── CLUSTERS ── */
+.clusters-grid {
+  max-width: 1100px; margin: 0 auto var(--sp-2);
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-2);
+}
+.cluster-name { font-size: var(--text-sm); font-weight: 700; color: var(--c-text); margin-bottom: 2px; }
+.cluster-roles { font-size: var(--text-sm); color: var(--c-text-dim); margin-top: var(--sp-1); line-height: 1.5; }
+
+@media (max-width: 600px) {
+  .clusters-grid { grid-template-columns: 1fr; }
 }
