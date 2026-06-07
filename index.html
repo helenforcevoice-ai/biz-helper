@@ -62,6 +62,10 @@
   <span id="status-text">Загружаем данные</span>
 </div>
 
+<div id="tooltip-hint">
+  <div class="tip-hint">Нажмите на ячейку — появится расшифровка значения для выбранной роли</div>
+</div>
+
 <div class="map-outer">
   <div class="map-grid" id="grid"></div>
   <div class="axis-row" id="axis-row"></div>
@@ -85,30 +89,57 @@
 </div>
 
 
-<section class="classification">
-  <div class="legend-header"><h2>Классификация ролей</h2></div>
-  <div class="legend-body">
-    <table class="class-table">
-      <thead>
-        <tr>
-          <th class="class-crit-col">Критерий</th>
-          <th class="class-neg">Полюс −</th>
-          <th class="class-zero">Нейтральные</th>
-          <th class="class-pos">Полюс +</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td>Объект работы</td><td>Бизнес</td><td>Процессы</td><td>Люди</td></tr>
-        <tr><td>Направление знания</td><td>Источник</td><td>Обменивается</td><td>Катализатор</td></tr>
-        <tr><td>Инициатива</td><td>Лидер</td><td>Партнёр</td><td>Последователь</td></tr>
-        <tr><td>Дистанция</td><td>Наблюдатель</td><td>Проводник</td><td>Участник</td></tr>
-        <tr><td>Горизонт</td><td>Стратег</td><td>Тактик</td><td>Операционист</td></tr>
-        <tr><td>Отношения</td><td>Транзакция</td><td>Рабочий контакт</td><td>Поддержка</td></tr>
-        <tr><td>Метод</td><td>Протокол</td><td>Договор</td><td>Гибкие методы</td></tr>
-        <tr><td>Ответственность</td><td>На помогаторе</td><td>Разделена</td><td>На подопечном</td></tr>
-        <tr><td>Длительность</td><td>Разовый</td><td>Проектный</td><td>Систематический</td></tr>
-      </tbody>
-    </table>
+<section class="clustering">
+  <div class="legend-header"><h2>Кластеризация ролей</h2></div>
+  <div class="legend-body clustering-body">
+    <div class="clustering-grid">
+
+      <div class="clustering-card">
+        <div class="clustering-eyebrow">кластер</div>
+        <div class="clustering-title neg">Полюс −</div>
+        <div class="clustering-divider"></div>
+        <div class="clustering-row"><span class="clustering-crit">Объект работы</span><span class="clustering-val">Бизнес</span></div>
+        <div class="clustering-row"><span class="clustering-crit">Направление знания</span><span class="clustering-val">Источник</span></div>
+        <div class="clustering-row"><span class="clustering-crit">Инициатива</span><span class="clustering-val">Лидер</span></div>
+        <div class="clustering-row"><span class="clustering-crit">Дистанция</span><span class="clustering-val">Наблюдатель</span></div>
+        <div class="clustering-row"><span class="clustering-crit">Горизонт</span><span class="clustering-val">Стратег</span></div>
+        <div class="clustering-row"><span class="clustering-crit">Отношения</span><span class="clustering-val">Транзакция</span></div>
+        <div class="clustering-row"><span class="clustering-crit">Метод</span><span class="clustering-val">Протокол</span></div>
+        <div class="clustering-row"><span class="clustering-crit">Ответственность</span><span class="clustering-val">На помогаторе</span></div>
+        <div class="clustering-row"><span class="clustering-crit">Длительность</span><span class="clustering-val">Разовый</span></div>
+      </div>
+
+      <div class="clustering-card">
+        <div class="clustering-eyebrow">кластер</div>
+        <div class="clustering-title zero">Нейтральные</div>
+        <div class="clustering-divider"></div>
+        <div class="clustering-row"><span class="clustering-crit">Объект работы</span><span class="clustering-val">Процессы</span></div>
+        <div class="clustering-row"><span class="clustering-crit">Направление знания</span><span class="clustering-val">Обменивается</span></div>
+        <div class="clustering-row"><span class="clustering-crit">Инициатива</span><span class="clustering-val">Партнёр</span></div>
+        <div class="clustering-row"><span class="clustering-crit">Дистанция</span><span class="clustering-val">Проводник</span></div>
+        <div class="clustering-row"><span class="clustering-crit">Горизонт</span><span class="clustering-val">Тактик</span></div>
+        <div class="clustering-row"><span class="clustering-crit">Отношения</span><span class="clustering-val">Рабочий контакт</span></div>
+        <div class="clustering-row"><span class="clustering-crit">Метод</span><span class="clustering-val">Договор</span></div>
+        <div class="clustering-row"><span class="clustering-crit">Ответственность</span><span class="clustering-val">Разделена</span></div>
+        <div class="clustering-row"><span class="clustering-crit">Длительность</span><span class="clustering-val">Проектный</span></div>
+      </div>
+
+      <div class="clustering-card">
+        <div class="clustering-eyebrow">кластер</div>
+        <div class="clustering-title pos">Полюс +</div>
+        <div class="clustering-divider"></div>
+        <div class="clustering-row"><span class="clustering-crit">Объект работы</span><span class="clustering-val">Люди</span></div>
+        <div class="clustering-row"><span class="clustering-crit">Направление знания</span><span class="clustering-val">Катализатор</span></div>
+        <div class="clustering-row"><span class="clustering-crit">Инициатива</span><span class="clustering-val">Последователь</span></div>
+        <div class="clustering-row"><span class="clustering-crit">Дистанция</span><span class="clustering-val">Участник</span></div>
+        <div class="clustering-row"><span class="clustering-crit">Горизонт</span><span class="clustering-val">Операционист</span></div>
+        <div class="clustering-row"><span class="clustering-crit">Отношения</span><span class="clustering-val">Поддержка</span></div>
+        <div class="clustering-row"><span class="clustering-crit">Метод</span><span class="clustering-val">Гибкие методы</span></div>
+        <div class="clustering-row"><span class="clustering-crit">Ответственность</span><span class="clustering-val">На подопечном</span></div>
+        <div class="clustering-row"><span class="clustering-crit">Длительность</span><span class="clustering-val">Систематический</span></div>
+      </div>
+
+    </div>
   </div>
 </section>
 
