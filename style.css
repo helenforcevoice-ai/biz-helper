@@ -453,14 +453,33 @@ footer {
   .header-channel { text-align: left; }
 }
 
-/* ── CLUSTERS ── */
-.clusters-grid {
+/* ── HOW TO ── */
+.how-grid {
   max-width: 1100px; margin: 0 auto var(--sp-2);
   display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-2);
 }
-.cluster-name { font-size: var(--text-sm); font-weight: 700; color: var(--c-text); margin-bottom: 2px; }
-.cluster-roles { font-size: var(--text-sm); color: var(--c-text-dim); margin-top: var(--sp-1); line-height: 1.5; }
+.how-text { font-size: var(--text-sm); color: var(--c-text-muted); margin-top: var(--sp-1); line-height: 1.5; }
+
+/* ── CLASSIFICATION TABLE ── */
+.classification { max-width: 1100px; margin: var(--sp-4) auto 0; }
+.class-table { width: 100%; border-collapse: collapse; }
+.class-table thead th {
+  padding: var(--sp-1) var(--sp-2); font-size: var(--text-sm); font-weight: 700;
+  text-align: left; border-bottom: 1px solid var(--c-border);
+}
+.class-crit-col { width: 200px; color: var(--c-on-dark-mid); }
+.class-neg  { color: #B8693A; }
+.class-zero { color: var(--c-on-dark-dim); }
+.class-pos  { color: #4A9E72; }
+.class-table tbody td {
+  padding: var(--sp-1) var(--sp-2); font-size: var(--text-sm);
+  color: var(--c-text); border-bottom: 1px solid var(--c-border);
+}
+.class-table tbody td:first-child { font-weight: 700; color: var(--c-text-muted); }
+.class-table tbody tr:last-child td { border-bottom: none; }
+.class-table tbody tr:hover { background: rgba(44,26,14,0.03); }
 
 @media (max-width: 600px) {
-  .clusters-grid { grid-template-columns: 1fr; }
+  .how-grid { grid-template-columns: 1fr; }
+  .class-crit-col { width: 120px; }
 }
