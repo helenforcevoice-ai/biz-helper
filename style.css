@@ -113,6 +113,7 @@ body {
 .header-title   { font-size: var(--text-xl); font-weight: 700; color: var(--c-on-dark); line-height: 1.05; }
 .header-sub     { font-size: var(--text-sm); color: var(--c-on-dark-mid); line-height: 1.4; }
 .header-channel { font-size: var(--text-sm); color: var(--c-on-dark-dim); text-align: right; }
+.header-channel-mobile { display: none; }
 .header-channel a { color: var(--c-gold-dim); text-decoration: none; transition: color 0.15s; }
 .header-channel a:hover { color: var(--c-gold); }
 
@@ -449,7 +450,7 @@ footer {
   .header-right { display: none; }
   .header-eyebrow { display: none; }
   .header-sub { display: none; }
-  .header-channel { text-align: left; }
+  .header-channel-mobile { display: block; }
 }
 
 /* ── HOW TO ── */
